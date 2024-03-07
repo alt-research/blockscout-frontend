@@ -20,7 +20,6 @@ const ContractConnectWallet = () => {
             size="sm"
             variant="outline"
             isLoading={ isModalOpening || isModalOpen }
-            backgroundColor={ '#EF6A7D' }
             loadingText="Connect wallet"
           >
               Connect wallet

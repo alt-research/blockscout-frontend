@@ -27,7 +27,7 @@ const StatsItem = ({ icon, title, value, className, tooltip, url, isLoading }: P
     [`@media screen and (min-width: ${ breakpoints.lg }) and (max-width: ${ LARGEST_BREAKPOINT })`]: { alignItems: 'center' },
   };
 
-  const bgColor = useColorModeValue('#EF6A7D', '#EF6A7D');
+  const bgColor = '#EF6A7D';
   const loadingBgColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
 
   return (
@@ -55,7 +55,7 @@ const StatsItem = ({ icon, title, value, className, tooltip, url, isLoading }: P
         alignItems="start"
         sx={ sxText }
       >
-        <Skeleton isLoaded={ !isLoading } color="text_secondary" fontSize="xs" lineHeight="16px" borderRadius="base">
+        <Skeleton isLoaded={ !isLoading } color="text" fontSize="xs" lineHeight="16px" borderRadius="base">
           <span>{ title }</span>
         </Skeleton>
         <Skeleton isLoaded={ !isLoading } fontWeight={ 500 } fontSize="md" color={ useColorModeValue('black', 'white') } borderRadius="base">
