@@ -1,7 +1,7 @@
 import type { Route } from 'nextjs-routes';
 
 const TEMPLATE_MAP: Record<Route['pathname'], string> = {
-  '/': 'blockchain explorer',
+  '/': 'Explorer',
   '/txs': 'transactions',
   '/txs/kettle/[hash]': 'kettle %hash% transactions',
   '/tx/[hash]': 'transaction %hash%',
