@@ -512,6 +512,7 @@ const schema = yup
 
     // Misc
     NEXT_PUBLIC_USE_NEXT_JS_PROXY: yup.boolean(),
+    NEXT_PUBLIC_HOMEPAGE_SHOW_GAS_TRACKER: yup.boolean(),
   })
   .concat(accountSchema)
   .concat(adsBannerSchema)
