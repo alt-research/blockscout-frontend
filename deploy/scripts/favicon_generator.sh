@@ -1,8 +1,5 @@
 #!/bin/bash
 
-master_url="${FAVICON_MASTER_URL:-$NEXT_PUBLIC_NETWORK_ICON}"
-export MASTER_URL="$master_url"
-
 cd ./deploy/tools/favicon-generator
 ./script.sh
 if [ $? -ne 0 ]; then

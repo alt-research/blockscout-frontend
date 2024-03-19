@@ -1,14 +1,14 @@
 secrets_file="./configs/envs/.env.secrets"
 favicon_folder="./public/favicon/"
-master_url="https://raw.githubusercontent.com/blockscout/frontend/main/tools/scripts/favicon.svg"
-
+FAVICON_GENERATOR_TEMPLATE_FILE_NAME="./configs/favicon-generator.template.json"
+FAVICON_GENERATOR_TEMPLATE=$(cat "$FAVICON_GENERATOR_TEMPLATE_FILE_NAME")
 if [ ! -f "$secrets_file" ]; then
     echo "Error: File '$secrets_file' not found."
     exit 1
 fi
 
 dotenv \
-  -v MASTER_URL=$master_url \
+  -v FAVICON_GENERATOR_TEMPLATE=$FAVICON_GENERATOR_TEMPLATE \
   -e $secrets_file \
   -- bash -c 'cd ./deploy/tools/favicon-generator && ./script.sh'
 
