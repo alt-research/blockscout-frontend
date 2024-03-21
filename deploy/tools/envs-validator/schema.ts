@@ -522,6 +522,16 @@ const schema = yup
     NEXT_PUBLIC_THEME_STATISTIC_BG_DARK_COLOR: yup.string().optional(),
     NEXT_PUBLIC_THEME_STATISTIC_TEXT_DARK_COLOR: yup.string().optional(),
     NEXT_PUBLIC_THEME_LINK_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_LINK_HOVER_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_LINK_HOVER_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_SECONDARY_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_SECONDARY_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_ERROR_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_ERROR_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_DIVIDER_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_DIVIDER_DARK_COLOR: yup.string().optional(),
 
     // Misc
     NEXT_PUBLIC_USE_NEXT_JS_PROXY: yup.boolean(),
