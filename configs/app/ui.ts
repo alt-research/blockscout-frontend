@@ -65,6 +65,14 @@ const UI = Object.freeze({
   homepage: {
     title: getEnvValue('NEXT_PUBLIC_HOMEPAGE_TITLE') || 'blockchain explorer',
     charts: parseEnvJson<Array<ChainIndicatorId>>(getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHARTS')) || [],
+    chart: {
+      containerBorder: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_CONTAINER_BORDER'),
+      lineColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_LINE_COLOR'),
+      areaStartColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_COLOR'),
+      areaStartDarkColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_DARK_COLOR'),
+      areaStopColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_COLOR'),
+      areaStopDarkColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_DARK_COLOR'),
+    },
     plate: {
       bgImageURL: getExternalAssetFilePath('NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND_IMAGE'),
       title: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE') || `${ getEnvValue('NEXT_PUBLIC_NETWORK_NAME') } explorer`,

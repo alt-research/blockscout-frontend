@@ -138,6 +138,12 @@ Please be aware that all environment variables prefixed with `NEXT_PUBLIC_` will
 | NEXT_PUBLIC_HOMEPAGE_TITLE | `string` | Tab title for homepage | - | - | 'blockchain explorer' |
 | NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE | `string` | Plate title in homepage | - | - | `${NEXT_PUBLIC_NETWORK_NAME} explorer` |
 | NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND_IMAGE | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_CONTAINER_BORDER | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_LINE_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_DARK_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_DARK_COLOR | `string` | Background image URL in homepage plate | - | - | - |
 
 &nbsp;
 

@@ -401,6 +401,12 @@ const schema = yup
     NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND: yup.string(),
     NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND_IMAGE: yup.string().test(urlTest),
     NEXT_PUBLIC_HOMEPAGE_SHOW_AVG_BLOCK_TIME: yup.boolean(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_CONTAINER_BORDER: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_LINE_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_DARK_COLOR: yup.string().optional(),
 
     //     b. sidebar
     NEXT_PUBLIC_FEATURED_NETWORKS: yup
