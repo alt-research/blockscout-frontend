@@ -15,6 +15,7 @@ Please be aware that all environment variables prefixed with `NEXT_PUBLIC_` will
 - [Blockchain parameters](ENVS.md#blockchain-parameters)
 - [API configuration](ENVS.md#api-configuration)
 - [UI configuration](ENVS.md#ui-configuration)
+  - [Theme](ENVS.md#theme)
   - [Homepage](ENVS.md#homepage)
   - [Sidebar](ENVS.md#sidebar)
   - [Footer](ENVS.md#footer)
@@ -103,6 +104,30 @@ Please be aware that all environment variables prefixed with `NEXT_PUBLIC_` will
 
 ## UI configuration
 
+## Theme configuration
+
+| Variable | Type| Description | Compulsoriness | Default value | Example value |
+| --- | --- | --- | --- | --- | --- |
+| NEXT_PUBLIC_THEME_INITIAL_COLOR_MODE | `system \| light \| dark` | initial code mode | - | `light` | `light` |
+| NEXT_PUBLIC_THEME_STATISTIC_BG_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_STATISTIC_BG_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_STATISTIC_TEXT_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_STATISTIC_TEXT_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_LINK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_LINK_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_LINK_HOVER_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_LINK_HOVER_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_TEXT_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_TEXT_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_TEXT_SECONDARY_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_TEXT_SECONDARY_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_ERROR_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_ERROR_DARK_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_DIVIDER_COLOR | - | - | - |  |  |
+| NEXT_PUBLIC_THEME_DIVIDER_DARK_COLOR | - | - | - |  |  |
+
+&nbsp;
+
 ### Homepage
 
 | Variable | Type| Description | Compulsoriness  | Default value | Example value |
@@ -111,6 +136,15 @@ Please be aware that all environment variables prefixed with `NEXT_PUBLIC_` will
 | NEXT_PUBLIC_HOMEPAGE_PLATE_TEXT_COLOR | `string` | Text color of the hero plate on the homepage (escape "#" symbol if you use HEX color codes or use rgba-value instead) | - | `white` | `\#DCFE76` |
 | NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND | `string` | Background css value for hero plate on the homepage (escape "#" symbol if you use HEX color codes or use rgba-value instead) | - | `radial-gradient(103.03% 103.03% at 0% 0%, rgba(183, 148, 244, 0.8) 0%, rgba(0, 163, 196, 0.8) 100%), var(--chakra-colors-blue-400)` | `radial-gradient(at 15% 86%, hsla(350,65%,70%,1) 0px, transparent 50%)` \| `no-repeat bottom 20% right 0px/100% url(https://placekitten/1400/200)` |
 | NEXT_PUBLIC_HOMEPAGE_SHOW_AVG_BLOCK_TIME | `boolean` | Set to false if average block time is useless for the network | - | `true` | `false` |
+| NEXT_PUBLIC_HOMEPAGE_TITLE | `string` | Tab title for homepage | - | - | 'blockchain explorer' |
+| NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE | `string` | Plate title in homepage | - | - | `${NEXT_PUBLIC_NETWORK_NAME} explorer` |
+| NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND_IMAGE | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_CONTAINER_BORDER | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_LINE_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_DARK_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_COLOR | `string` | Background image URL in homepage plate | - | - | - |
+| NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_DARK_COLOR | `string` | Background image URL in homepage plate | - | - | - |
 
 &nbsp;
 
@@ -174,6 +208,7 @@ Settings for meta tags and OG tags
 | Variable | Type| Description | Compulsoriness  | Default value | Example value |
 | --- | --- | --- | --- | --- | --- |
 | NEXT_PUBLIC_PROMOTE_BLOCKSCOUT_IN_TITLE | `boolean` | Set to `true` to promote Blockscout in meta and OG titles | - | `true` | `true` |
+| NEXT_PUBLIC_OG_TITLE | `string` | Custom OG title | - | - | - |
 | NEXT_PUBLIC_OG_DESCRIPTION | `string` | Custom OG description | - | - | `Blockscout is the #1 open-source blockchain explorer available today. 100+ chains and counting rely on Blockscout data availability, APIs, and ecosystem tools to support their networks.` |
 | NEXT_PUBLIC_OG_IMAGE_URL | `string` | OG image url. Minimum image size is 200 x 20 pixels (recommended: 1200 x 600); maximum supported file size is 8 MB; 2:1 aspect ratio; supported formats: image/jpeg, image/gif, image/png | - | `static/og_placeholder.png` | `https://placekitten.com/1200/600` |
 
@@ -665,3 +700,6 @@ For obtaining the variables values please refer to [reCAPTCHA documentation](htt
 | Variable | Type| Description | Compulsoriness  | Default value | Example value |
 | --- | --- | --- | --- | --- | --- |
 | NEXT_PUBLIC_RE_CAPTCHA_APP_SITE_KEY | `string` | Site key | - | - | `<your-secret>` |
+
+# Dummy list (for AltLayer-added variables)
+NEXT_PUBLIC_HOMEPAGE_SHOW_GAS_TRACKER
