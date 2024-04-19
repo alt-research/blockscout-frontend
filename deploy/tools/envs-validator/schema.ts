@@ -495,14 +495,23 @@ const schema = yup
 
     // 4. UI configuration
     //   a. homepage
+    NEXT_PUBLIC_HOMEPAGE_TITLE: yup.string().optional(),
     NEXT_PUBLIC_HOMEPAGE_CHARTS: yup
       .array()
       .transform(replaceQuotes)
       .json()
       .of(yup.string<ChainIndicatorId>().oneOf(CHAIN_INDICATOR_IDS)),
+    NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE: yup.string().optional(),
     NEXT_PUBLIC_HOMEPAGE_PLATE_TEXT_COLOR: yup.string(),
     NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND: yup.string(),
+    NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND_IMAGE: yup.string().test(urlTest),
     NEXT_PUBLIC_HOMEPAGE_SHOW_AVG_BLOCK_TIME: yup.boolean(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_CONTAINER_BORDER: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_LINE_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_DARK_COLOR: yup.string().optional(),
 
     //     b. sidebar
     NEXT_PUBLIC_FEATURED_NETWORKS: yup
@@ -601,6 +610,7 @@ const schema = yup
     NEXT_PUBLIC_AD_TEXT_PROVIDER: yup.string<AdTextProviders>().oneOf(SUPPORTED_AD_TEXT_PROVIDERS),
     NEXT_PUBLIC_PROMOTE_BLOCKSCOUT_IN_TITLE: yup.boolean(),
     NEXT_PUBLIC_OG_DESCRIPTION: yup.string(),
+    NEXT_PUBLIC_OG_TITLE: yup.string().optional(),
     NEXT_PUBLIC_OG_IMAGE_URL: yup.string().test(urlTest),
     NEXT_PUBLIC_OG_ENHANCED_DATA_ENABLED: yup.boolean(),
     NEXT_PUBLIC_SAFE_TX_SERVICE_URL: yup.string().test(urlTest),
@@ -620,8 +630,31 @@ const schema = yup
     NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN: yup.string(),
     NEXT_PUBLIC_GROWTH_BOOK_CLIENT_KEY: yup.string(),
 
+    // 7. Theme configuraton
+    NEXT_PUBLIC_THEME_INITIAL_COLOR_MODE: yup.string().oneOf([ 'system', 'light', 'dark' ]).optional(),
+    NEXT_PUBLIC_THEME_STATISTIC_BG_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_STATISTIC_TEXT_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_LINK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_STATISTIC_BG_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_STATISTIC_TEXT_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_LINK_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_LINK_HOVER_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_LINK_HOVER_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_SECONDARY_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_TEXT_SECONDARY_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_ERROR_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_ERROR_DARK_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_DIVIDER_COLOR: yup.string().optional(),
+    NEXT_PUBLIC_THEME_DIVIDER_DARK_COLOR: yup.string().optional(),
+
     // Misc
     NEXT_PUBLIC_USE_NEXT_JS_PROXY: yup.boolean(),
+
+    // AltLayer-added variables
+    // NEXT_PUBLIC_HOMEPAGE_SHOW_GAS_TRACKER is still needed because our chart is on v1.24.1 and still includes this env by default
+    NEXT_PUBLIC_HOMEPAGE_SHOW_GAS_TRACKER: yup.boolean(),
   })
   .concat(accountSchema)
   .concat(adsBannerSchema)
