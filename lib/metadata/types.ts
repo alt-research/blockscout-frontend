@@ -15,7 +15,7 @@ export interface Metadata {
     description: string;
     opengraph: {
         title: string;
-        description?: string;
-        imageUrl?: string;
+        description: string;
+        imageUrl: URL;
     };
 }

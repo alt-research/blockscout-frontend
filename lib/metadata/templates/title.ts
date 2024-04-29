@@ -1,7 +1,9 @@
 import type { Route } from 'nextjs-routes';
 
+import config from 'configs/app';
+
 const TEMPLATE_MAP: Record<Route['pathname'], string> = {
-  '/': 'blockchain explorer',
+  '/': config.UI.homepage.title,
   '/txs': 'transactions',
   '/txs/kettle/[hash]': 'kettle %hash% transactions',
   '/tx/[hash]': 'transaction %hash%',
@@ -66,5 +68,5 @@ const TEMPLATE_MAP_ENHANCED: Partial<Record<Route['pathname'], string>> = {
 export function make(pathname: Route['pathname'], isEnriched = false) {
   const template = (isEnriched ? TEMPLATE_MAP_ENHANCED[pathname] : undefined) ?? TEMPLATE_MAP[pathname];
 
-  return `%network_name% ${ template }`;
+  return pathname === '/' ? template : `%network_name% ${ template }`;
 }

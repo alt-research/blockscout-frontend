@@ -7,7 +7,6 @@ import config from 'configs/app';
 import getNetworkTitle from 'lib/networks/getNetworkTitle';
 
 import compileValue from './compileValue';
-import getPageOgType from './getPageOgType';
 import * as templates from './templates';
 
 export default function generate<Pathname extends Route['pathname']>(route: RouteParams<Pathname>, apiData: ApiData<Pathname> = null): Metadata {
@@ -22,15 +21,13 @@ export default function generate<Pathname extends Route['pathname']>(route: Rout
   const title = compiledTitle ? compiledTitle + (config.meta.promoteBlockscoutInTitle ? ' | Blockscout' : '') : '';
   const description = compileValue(templates.description.make(route.pathname), params);
 
-  const pageOgType = getPageOgType(route.pathname);
-
   return {
     title: title,
     description,
     opengraph: {
-      title: title,
-      description: pageOgType !== 'Regular page' ? config.meta.og.description : '',
-      imageUrl: pageOgType !== 'Regular page' ? config.meta.og.imageUrl : '',
+      title: config.meta.og.title || title,
+      description: config.meta.og.description || description,
+      imageUrl: config.meta.og.imageUrl,
     },
   };
 }
