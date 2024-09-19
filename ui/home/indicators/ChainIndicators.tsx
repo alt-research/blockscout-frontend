@@ -84,6 +84,7 @@ const ChainIndicators = () => {
     <Flex
       px={{ base: 3, lg: 4 }}
       py={ 3 }
+      border={ config.UI.homepage.chart.containerBorder || undefined }
       borderRadius="base"
       bgColor={ bgColor }
       columnGap={{ base: 3, lg: 4 }}

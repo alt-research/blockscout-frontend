@@ -4,6 +4,7 @@ import React from 'react';
 
 import type { Route } from 'nextjs-routes';
 
+import config from 'configs/app';
 import Hint from 'ui/shared/Hint';
 import IconSvg, { type IconName } from 'ui/shared/IconSvg';
 import TruncatedValue from 'ui/shared/TruncatedValue';
@@ -51,16 +52,19 @@ const StatsWidget = ({
   period,
   href,
 }: Props) => {
-  const bgColor = useColorModeValue('gray.50', 'whiteAlpha.100');
   const skeletonBgColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
   const hintColor = useColorModeValue('gray.600', 'gray.400');
+  const bgColor = useColorModeValue(config.UI.theme.statisticBgColor, config.UI.theme.statisticBgDarkColor);
+  const defaultBgColor = useColorModeValue('blue.50', 'blue.800');
+  const textColor = useColorModeValue(config.UI.theme.statisticTextColor, config.UI.theme.statisticTextDarkColor);
+  const defaultTextColor = useColorModeValue('black', 'white');
 
   return (
     <Container href={ !isLoading ? href : undefined }>
       <Flex
         className={ className }
         alignItems="center"
-        bgColor={ isLoading ? skeletonBgColor : bgColor }
+        bgColor={ isLoading ? skeletonBgColor : bgColor || defaultBgColor }
         p={ 3 }
         borderRadius="base"
         justifyContent="space-between"
@@ -98,6 +102,7 @@ const StatsWidget = ({
             fontWeight={ 500 }
             fontSize="lg"
             lineHeight={ 6 }
+            color={ textColor || defaultTextColor }
           >
             { valuePrefix && <chakra.span whiteSpace="pre">{ valuePrefix }</chakra.span> }
             { typeof value === 'string' ? (

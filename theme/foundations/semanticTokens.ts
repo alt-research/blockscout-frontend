@@ -1,23 +1,26 @@
+import config from 'configs/app';
+
 const semanticTokens = {
   colors: {
     divider: {
-      'default': 'blackAlpha.200',
-      _dark: 'whiteAlpha.200',
+      'default': config.UI.theme.dividerColor,
+      _dark: config.UI.theme.dividerDarkColor,
     },
     text: {
-      'default': 'blackAlpha.800',
-      _dark: 'whiteAlpha.800',
+      'default': config.UI.theme.textColor,
+      _dark: config.UI.theme.textDarkColor,
     },
     text_secondary: {
-      'default': 'gray.500',
-      _dark: 'gray.400',
+      'default': config.UI.theme.textSecondaryColor,
+      _dark: config.UI.theme.textSecondaryDarkColor,
     },
     link: {
-      'default': 'blue.600',
-      _dark: 'blue.300',
+      'default': config.UI.theme.linkColor,
+      _dark: config.UI.theme.linkDarkColor,
     },
     link_hovered: {
-      'default': 'blue.400',
+      'default': config.UI.theme.linkHoverColor,
+      _dark: config.UI.theme.linkHoverDarkColor,
     },
     icon_link_external: {
       'default': 'gray.300',
@@ -28,8 +31,8 @@ const semanticTokens = {
       _dark: 'gray.500',
     },
     error: {
-      'default': 'red.500',
-      _dark: 'red.500',
+      'default': config.UI.theme.errorColor,
+      _dark: config.UI.theme.errorDarkColor,
     },
     dialog_bg: {
       'default': 'white',

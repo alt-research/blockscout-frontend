@@ -30,9 +30,9 @@ export default function generate<Pathname extends Route['pathname']>(route: Rout
     title: title,
     description,
     opengraph: {
-      title: title,
+      title: config.meta.og.title || title,
       description: pageOgType !== 'Regular page' ? config.meta.og.description : '',
-      imageUrl: pageOgType !== 'Regular page' ? config.meta.og.imageUrl : '',
+      imageUrl: config.meta.og.imageUrl,
     },
     canonical: getCanonicalUrl(route.pathname),
   };

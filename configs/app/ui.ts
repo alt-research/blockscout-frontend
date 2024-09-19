@@ -53,6 +53,24 @@ const defaultColorTheme = (() => {
 })();
 
 const UI = Object.freeze({
+  theme: {
+    statisticBgColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_BG_COLOR'),
+    statisticBgDarkColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_BG_DARK_COLOR'),
+    statisticTextColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_TEXT_COLOR'),
+    statisticTextDarkColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_TEXT_DARK_COLOR'),
+    linkColor: getEnvValue('NEXT_PUBLIC_THEME_LINK_COLOR') || 'blue.600',
+    linkDarkColor: getEnvValue('NEXT_PUBLIC_THEME_LINK_DARK_COLOR') || 'blue.300',
+    linkHoverColor: getEnvValue('NEXT_PUBLIC_THEME_LINK_HOVER_COLOR') || 'blue.400',
+    linkHoverDarkColor: getEnvValue('NEXT_PUBLIC_THEME_LINK_HOVER_DARK_COLOR') || 'blue.200',
+    textColor: getEnvValue('NEXT_PUBLIC_THEME_TEXT_COLOR') || 'blackAlpha.800',
+    textDarkColor: getEnvValue('NEXT_PUBLIC_THEME_TEXT_DARK_COLOR') || 'whiteAlpha.800',
+    textSecondaryColor: getEnvValue('NEXT_PUBLIC_THEME_TEXT_SECONDARY_COLOR') || 'gray.500',
+    textSecondaryDarkColor: getEnvValue('NEXT_PUBLIC_THEME_TEXT_SECONDARY_DARK_COLOR') || 'gray.400',
+    errorColor: getEnvValue('NEXT_PUBLIC_THEME_ERROR_COLOR') || 'red.500',
+    errorDarkColor: getEnvValue('NEXT_PUBLIC_THEME_ERROR_DARK_COLOR') || 'red.500',
+    dividerColor: getEnvValue('NEXT_PUBLIC_THEME_DIVIDER_COLOR') || 'blackAlpha.200',
+    dividerDarkColor: getEnvValue('NEXT_PUBLIC_THEME_DIVIDER_DARK_COLOR') || 'whiteAlpha.200',
+  },
   navigation: {
     logo: {
       'default': getExternalAssetFilePath('NEXT_PUBLIC_NETWORK_LOGO'),
@@ -74,6 +92,15 @@ const UI = Object.freeze({
     frontendCommit: getEnvValue('NEXT_PUBLIC_GIT_COMMIT_SHA'),
   },
   homepage: {
+    title: getEnvValue('NEXT_PUBLIC_HOMEPAGE_TITLE') || 'blockchain explorer',
+    chart: {
+      containerBorder: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_CONTAINER_BORDER'),
+      lineColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_LINE_COLOR'),
+      areaStartColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_COLOR'),
+      areaStartDarkColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_START_DARK_COLOR'),
+      areaStopColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_COLOR'),
+      areaStopDarkColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHART_AREA_STOP_DARK_COLOR'),
+    },
     charts: parseEnvJson<Array<ChainIndicatorId>>(getEnvValue('NEXT_PUBLIC_HOMEPAGE_CHARTS')) || [],
     stats: homePageStats,
     heroBanner: parseEnvJson<HeroBannerConfig>(getEnvValue('NEXT_PUBLIC_HOMEPAGE_HERO_BANNER_CONFIG')),
@@ -81,6 +108,7 @@ const UI = Object.freeze({
     plate: {
       background: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND'),
       textColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_TEXT_COLOR'),
+      title: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE') || `${ getEnvValue('NEXT_PUBLIC_NETWORK_NAME') } explorer`,
     },
   },
   views,

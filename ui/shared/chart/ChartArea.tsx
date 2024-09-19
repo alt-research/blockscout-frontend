@@ -5,6 +5,8 @@ import React from 'react';
 
 import type { TimeChartItem } from 'ui/shared/chart/types';
 
+import config from 'configs/app';
+
 interface Props extends React.SVGProps<SVGPathElement> {
   id?: string;
   xScale: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number>;
@@ -21,10 +23,17 @@ const ChartArea = ({ id, xScale, yScale, color, data, noAnimation, ...props }: P
   const gradientColorId = `${ id || 'gradient' }-${ color }-color`;
   const gradientStopColor = useToken('colors', useColorModeValue('whiteAlpha.200', 'blackAlpha.100'));
   const defaultGradient = {
-    startColor: useToken('colors', useColorModeValue('blue.100', 'blue.400')),
-    stopColor: useToken('colors', transparentize(useColorModeValue('blue.100', 'blue.400'), 0)(theme)),
+    startColor: useToken('colors', useColorModeValue(
+      config.UI.homepage.chart.areaStartColor || 'blue.100',
+      config.UI.homepage.chart.areaStartDarkColor || 'blue.400',
+    )),
+    stopColor: useToken('colors',
+      transparentize(
+        useColorModeValue(config.UI.homepage.chart.areaStopColor || 'blue.100', config.UI.homepage.chart.areaStopDarkColor || 'blue.400'),
+        0,
+      )(theme),
+    ),
   };
-
   React.useEffect(() => {
     if (noAnimation) {
       d3.select(ref.current).attr('opacity', 1);
