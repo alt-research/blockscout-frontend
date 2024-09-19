@@ -108,7 +108,7 @@ const UI = Object.freeze({
     plate: {
       background: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND'),
       textColor: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_TEXT_COLOR'),
-      title: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE') || `${ getEnvValue('NEXT_PUBLIC_NETWORK_NAME') } explorer`,
+      title: getEnvValue('NEXT_PUBLIC_HOMEPAGE_PLATE_TITLE'),
     },
   },
   views,
