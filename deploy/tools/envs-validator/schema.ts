@@ -917,6 +917,7 @@ const schema = yup
     NEXT_PUBLIC_ROLLBAR_CLIENT_TOKEN: yup.string(),
 
     // 7. Theme configuraton
+    NEXT_PUBLIC_THEME_INITIAL_COLOR_MODE: yup.string().oneOf([ 'system', 'light', 'dark' ]).optional(),
     NEXT_PUBLIC_THEME_STATISTIC_BG_COLOR: yup.string().optional(),
     NEXT_PUBLIC_THEME_STATISTIC_TEXT_COLOR: yup.string().optional(),
     NEXT_PUBLIC_THEME_LINK_COLOR: yup.string().optional(),

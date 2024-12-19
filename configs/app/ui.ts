@@ -54,6 +54,7 @@ const defaultColorTheme = (() => {
 
 const UI = Object.freeze({
   theme: {
+    initialColorMode: (getEnvValue('NEXT_PUBLIC_THEME_INITIAL_COLOR_MODE') as ('system' | 'light' | 'dark' | undefined)) || 'system',
     statisticBgColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_BG_COLOR'),
     statisticBgDarkColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_BG_DARK_COLOR'),
     statisticTextColor: getEnvValue('NEXT_PUBLIC_THEME_STATISTIC_TEXT_COLOR'),
