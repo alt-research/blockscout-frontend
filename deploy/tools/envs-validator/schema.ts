@@ -617,6 +617,7 @@ const schema = yup
 
     // 4. UI configuration
     //   a. homepage
+    NEXT_PUBLIC_HOMEPAGE_TITLE: yup.string().optional(),
     NEXT_PUBLIC_HOMEPAGE_CHARTS: yup
       .array()
       .transform(replaceQuotes)
