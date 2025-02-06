@@ -4,6 +4,7 @@ import React from 'react';
 
 import type { Route } from 'nextjs-routes';
 
+import config from 'configs/app';
 import Skeleton from 'ui/shared/chakra/Skeleton';
 import Hint from 'ui/shared/Hint';
 import IconSvg, { type IconName } from 'ui/shared/IconSvg';
