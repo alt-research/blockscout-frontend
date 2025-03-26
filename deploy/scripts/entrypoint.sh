@@ -35,6 +35,9 @@ export_envs_from_preset() {
 # If there is a preset, load the environment variables from the its file
 export_envs_from_preset
 
+# Generate OG image
+node --no-warnings ./og_image_generator.js
+
 # Download external assets
 ./download_assets.sh ./public/assets/configs
 
@@ -57,9 +60,6 @@ else
   echo "👍 Favicons bundle successfully generated."
 fi
 echo
-
-# Generate OG image
-node --no-warnings ./og_image_generator.js
 
 # Create envs.js file with run-time environment variables for the client app
 ./make_envs_script.sh
