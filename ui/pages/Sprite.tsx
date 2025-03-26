@@ -2,6 +2,9 @@ import { Flex, Box, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
+import type { StaticRoute } from 'nextjs-routes';
+import { route } from 'nextjs-routes';
+
 import useFetch from 'lib/hooks/useFetch';
 import ContentLoader from 'ui/shared/ContentLoader';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
@@ -15,10 +18,10 @@ const formatFileSize = (fileSizeInBytes: number) => `${ (fileSizeInBytes / 1_024
 
 interface IconInfo {
   name: string;
-  file_size: number;
+  fileSize: number;
 }
 
-const Item = ({ name, file_size: fileSize, bgColor }: IconInfo & { bgColor: string }) => {
+const Item = ({ name, fileSize, bgColor }: IconInfo & { bgColor: string }) => {
   const { hasCopied, onCopy } = useClipboard(name, 1000);
   const [ copied, setCopied ] = React.useState(false);
 
@@ -41,7 +44,7 @@ const Item = ({ name, file_size: fileSize, bgColor }: IconInfo & { bgColor: stri
       onClick={ onCopy }
       cursor="pointer"
     >
-      <IconSvg name={ name.replace('.svg', '') as IconName } boxSize="100px" bgColor={ bgColor } borderRadius="base"/>
+      <IconSvg name={ name as IconName } boxSize="100px" bgColor={ bgColor } borderRadius="base"/>
       <Tooltip label={ copied ? 'Copied' : 'Copy to clipboard' } isOpen={ copied }>
         <Box fontWeight={ 500 } mt={ 2 }>{ name }</Box>
       </Tooltip>
@@ -58,7 +61,8 @@ const Sprite = () => {
   const { data, isFetching, isError } = useQuery({
     queryKey: [ 'sprite' ],
     queryFn: () => {
-      return fetch<Array<IconInfo>, unknown>('/icons/registry.json');
+      const url = route({ pathname: '/node-api/sprite' as StaticRoute<'/api/sprite'>['pathname'] });
+      return fetch<{ icons: Array<IconInfo> }, unknown>(url);
     },
   });
 
@@ -67,13 +71,11 @@ const Sprite = () => {
       return <ContentLoader/>;
     }
 
-    if (isError || !data || !Array.isArray(data)) {
+    if (isError || !data || !('icons' in data)) {
       return <DataFetchAlert/>;
     }
 
-    const items = data
-      .filter((icon) => icon.name.includes(searchTerm))
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const items = data.icons.filter((icon) => icon.name.includes(searchTerm));
 
     if (items.length === 0) {
       return <EmptySearchResult text="No icons found"/>;
@@ -87,12 +89,12 @@ const Sprite = () => {
   })();
 
   const total = React.useMemo(() => {
-    if (!data || !Array.isArray(data)) {
+    if (!data || !('icons' in data)) {
       return;
     }
-    return data.reduce((result, item) => {
+    return data?.icons.reduce((result, item) => {
       result.num++;
-      result.fileSize += item.file_size;
+      result.fileSize += item.fileSize;
       return result;
     }, { num: 0, fileSize: 0 });
   }, [ data ]);

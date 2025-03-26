@@ -72,6 +72,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/api/csrf': 'Regular page',
   '/api/healthz': 'Regular page',
   '/api/config': 'Regular page',
+  '/api/sprite': 'Regular page',
 };
 
 export default function getPageOgType(pathname: Route['pathname']) {
