@@ -35,7 +35,6 @@ const config: Feature<{
   type: RollupType;
   homepage: { showLatestBlocks: boolean };
   outputRootsEnabled: boolean;
-  interopEnabled: boolean;
   L2WithdrawalUrl: string | undefined;
   parentChain: ParentChain;
   DA: {
@@ -51,7 +50,6 @@ const config: Feature<{
       type,
       L2WithdrawalUrl: type === 'optimistic' ? L2WithdrawalUrl : undefined,
       outputRootsEnabled: type === 'optimistic' && getEnvValue('NEXT_PUBLIC_ROLLUP_OUTPUT_ROOTS_ENABLED') === 'true',
-      interopEnabled: type === 'optimistic' && getEnvValue('NEXT_PUBLIC_INTEROP_ENABLED') === 'true',
       homepage: {
         showLatestBlocks: getEnvValue('NEXT_PUBLIC_ROLLUP_HOMEPAGE_SHOW_LATEST_BLOCKS') === 'true',
       },

@@ -84,7 +84,6 @@
 	| "integration/full"
 	| "integration/partial"
 	| "internal_txns"
-	| "interop"
 	| "key"
 	| "lightning_navbar"
 	| "lightning"

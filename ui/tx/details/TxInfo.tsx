@@ -38,7 +38,6 @@ import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
 import DetailsSponsoredItem from 'ui/shared/DetailsSponsoredItem';
 import DetailsTimestamp from 'ui/shared/DetailsTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
-import AddressEntityInterop from 'ui/shared/entities/address/AddressEntityInterop';
 import BatchEntityL2 from 'ui/shared/entities/block/BatchEntityL2';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntityL1 from 'ui/shared/entities/tx/TxEntityL1';
@@ -65,9 +64,10 @@ import TxExternalTxs from 'ui/tx/TxExternalTxs';
 import TxSocketAlert from 'ui/tx/TxSocketAlert';
 import ZkSyncL2TxnBatchHashesInfo from 'ui/txnBatches/zkSyncL2/ZkSyncL2TxnBatchHashesInfo';
 
-import TxDetailsInterop from './TxDetailsInterop';
 import TxDetailsWithdrawalStatusArbitrum from './TxDetailsWithdrawalStatusArbitrum';
 import TxInfoScrollFees from './TxInfoScrollFees';
+
+const rollupFeature = config.features.rollup;
 
 interface Props {
   data: Transaction | undefined;
@@ -76,7 +76,6 @@ interface Props {
 }
 
 const externalTxFeature = config.features.externalTxs;
-const rollupFeature = config.features.rollup;
 
 const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
   const [ isExpanded, setIsExpanded ] = React.useState(false);
@@ -142,8 +141,6 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
     </Tooltip>
   ) : null;
 
-  const hasInterop = rollupFeature.isEnabled && rollupFeature.interopEnabled && data.op_interop;
-
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
 
@@ -160,8 +157,6 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           <TxSocketAlert status={ socketStatus }/>
         </GridItem>
       ) }
-
-      <TxDetailsInterop data={ data.op_interop } isLoading={ isLoading }/>
 
       <DetailsInfoItem.Label
         hint="Unique character string (TxID) assigned to every verified transaction"
@@ -503,29 +498,6 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
       </DetailsInfoItem.Value>
 
       { data.token_transfers && <TxDetailsTokenTransfers data={ data.token_transfers } txHash={ data.hash } isOverflow={ data.token_transfers_overflow }/> }
-
-      { hasInterop && data.op_interop?.target && (
-        <>
-          <DetailsInfoItem.Label
-            isLoading={ isLoading }
-            hint="The target address where this cross-chain transaction is executed"
-          >
-            Interop target
-          </DetailsInfoItem.Label>
-          <DetailsInfoItem.Value flexWrap="nowrap">
-            { data.op_interop?.relay_chain !== undefined ? (
-              <AddressEntityInterop
-                chain={ data.op_interop.relay_chain }
-                address={{ hash: data.op_interop.target }}
-                isLoading={ isLoading }
-                truncation="dynamic"
-              />
-            ) : (
-              <AddressEntity address={{ hash: data.op_interop.target }} isLoading={ isLoading } truncation="dynamic"/>
-            ) }
-          </DetailsInfoItem.Value>
-        </>
-      ) }
 
       <DetailsInfoItemDivider/>
 
