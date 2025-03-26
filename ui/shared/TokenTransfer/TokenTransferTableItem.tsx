@@ -75,7 +75,6 @@ const TokenTransferTableItem = ({
           <NftEntity
             hash={ token.address }
             id={ total.token_id }
-            instance={ total.token_instance }
             isLoading={ isLoading }
           />
         ) }

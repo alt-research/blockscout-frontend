@@ -1,54 +1,28 @@
 import { chakra, LinkOverlay } from '@chakra-ui/react';
 import React from 'react';
 
-import type { MediaElementProps } from './utils';
+import { mediaStyleProps } from './utils';
 
-interface Props extends MediaElementProps<'a'> {}
+interface Props {
+  src: string;
+  onLoad: () => void;
+  onError: () => void;
+  onClick?: () => void;
+}
 
-const NftHtml = ({ src, transport, onLoad, onError, onClick, ...rest }: Props) => {
-  const ref = React.useRef<HTMLIFrameElement>(null);
-
-  const [ isLoaded, setIsLoaded ] = React.useState(false);
-
-  const handleLoad = React.useCallback(() => {
-    setIsLoaded(true);
-    onLoad?.();
-  }, [ onLoad ]);
-
-  const loadViaHttp = React.useCallback(async() => {
-    if (!ref.current) {
-      return;
-    }
-
-    ref.current.src = src;
-    ref.current.onload = handleLoad;
-    onError && (ref.current.onerror = onError);
-  }, [ src, handleLoad, onError ]);
-
-  React.useEffect(() => {
-    switch (transport) {
-      case 'ipfs': {
-        // Currently we don't support IPFS video loading
-        onError?.();
-        break;
-      }
-      case 'http':
-        loadViaHttp();
-        break;
-    }
-  }, [ loadViaHttp, onError, transport ]);
-
+const NftHtml = ({ src, onLoad, onError, onClick }: Props) => {
   return (
     <LinkOverlay
       onClick={ onClick }
-      { ...rest }
+      { ...mediaStyleProps }
     >
       <chakra.iframe
-        ref={ ref }
+        src={ src }
         h="100%"
         w="100%"
         sandbox="allow-scripts"
-        opacity={ isLoaded ? 1 : 0 }
+        onLoad={ onLoad }
+        onError={ onError }
       />
     </LinkOverlay>
   );

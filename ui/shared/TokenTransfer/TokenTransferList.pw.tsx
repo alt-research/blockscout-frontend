@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import * as tokenInstanceMock from 'mocks/tokens/tokenInstance';
 import * as tokenTransferMock from 'mocks/tokens/tokenTransfer';
 import { test, expect, devices } from 'playwright/lib';
 
@@ -24,8 +23,7 @@ const data = [
   tokenTransferMock.erc1155D,
 ];
 
-test('without tx info', async({ render, mockAssetResponse }) => {
-  await mockAssetResponse(tokenInstanceMock.base.image_url as string, './playwright/mocks/image_s.jpg');
+test('without tx info', async({ render }) => {
   const component = await render(
     <Box pt={{ base: '134px', lg: 6 }}>
       <TokenTransferList
@@ -38,8 +36,7 @@ test('without tx info', async({ render, mockAssetResponse }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('with tx info', async({ render, mockAssetResponse }) => {
-  await mockAssetResponse(tokenInstanceMock.base.image_url as string, './playwright/mocks/image_s.jpg');
+test('with tx info', async({ render }) => {
   const component = await render(
     <Box pt={{ base: '134px', lg: 6 }}>
       <TokenTransferList

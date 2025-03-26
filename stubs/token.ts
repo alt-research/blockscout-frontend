@@ -110,7 +110,6 @@ export const TOKEN_TRANSFER_ERC_721: TokenTransfer = {
   ...TOKEN_TRANSFER_ERC_20,
   total: {
     token_id: '35870',
-    token_instance: null,
   },
   token: TOKEN_INFO_ERC_721,
 };
@@ -121,7 +120,6 @@ export const TOKEN_TRANSFER_ERC_1155: TokenTransfer = {
     token_id: '35870',
     value: '123',
     decimals: '18',
-    token_instance: null,
   },
   token: TOKEN_INFO_ERC_1155,
 };
@@ -132,7 +130,6 @@ export const TOKEN_TRANSFER_ERC_404: TokenTransfer = {
     token_id: '35870',
     value: '123',
     decimals: '18',
-    token_instance: null,
   },
   token: TOKEN_INFO_ERC_404,
 };

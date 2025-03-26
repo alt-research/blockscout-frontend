@@ -32,7 +32,6 @@ export const STATE_CHANGE_TOKEN: TxStateChange = {
       direction: 'to',
       total: {
         token_id: '1621395',
-        token_instance: null,
       },
     },
   ],

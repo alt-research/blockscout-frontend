@@ -1,7 +1,6 @@
 import { Tr, Td, Flex, Box } from '@chakra-ui/react';
 import React from 'react';
 
-import type { TokenInstance } from 'types/api/token';
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 
 import getCurrencyValue from 'lib/getCurrencyValue';
@@ -13,7 +12,7 @@ import NftEntity from 'ui/shared/entities/nft/NftEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import TimeAgoWithTooltip from 'ui/shared/TimeAgoWithTooltip';
 
-type Props = TokenTransfer & { tokenId?: string; isLoading?: boolean; instance?: TokenInstance };
+type Props = TokenTransfer & { tokenId?: string; isLoading?: boolean };
 
 const TokenTransferTableItem = ({
   token,
@@ -25,7 +24,6 @@ const TokenTransferTableItem = ({
   timestamp,
   tokenId,
   isLoading,
-  instance,
 }: Props) => {
   const { usd, valueStr } = total && 'value' in total && total.value !== null ? getCurrencyValue({
     value: total.value,
@@ -80,7 +78,6 @@ const TokenTransferTableItem = ({
             <NftEntity
               hash={ token.address }
               id={ total.token_id }
-              instance={ instance || total.token_instance }
               noLink={ Boolean(tokenId && tokenId === total.token_id) }
               isLoading={ isLoading }
             />

@@ -1,7 +1,7 @@
 import { Table, Tbody, Tr, Th } from '@chakra-ui/react';
 import React from 'react';
 
-import type { TokenInfo, TokenInstance } from 'types/api/token';
+import type { TokenInfo } from 'types/api/token';
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
@@ -20,10 +20,9 @@ interface Props {
   tokenId?: string;
   isLoading?: boolean;
   token: TokenInfo;
-  instance?: TokenInstance;
 }
 
-const TokenTransferTable = ({ data, top, showSocketInfo, socketInfoAlert, socketInfoNum, tokenId, isLoading, token, instance }: Props) => {
+const TokenTransferTable = ({ data, top, showSocketInfo, socketInfoAlert, socketInfoNum, tokenId, isLoading, token }: Props) => {
 
   const tokenType = token.type;
 
@@ -60,7 +59,6 @@ const TokenTransferTable = ({ data, top, showSocketInfo, socketInfoAlert, socket
               key={ item.transaction_hash + item.block_hash + item.log_index + '_' + index }
               { ...item }
               tokenId={ tokenId }
-              instance={ instance }
               isLoading={ isLoading }
             />
           )) }
