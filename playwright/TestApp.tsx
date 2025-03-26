@@ -39,7 +39,6 @@ const defaultAppContext = {
     query: {},
     adBannerProvider: 'slise' as const,
     apiData: null,
-    uuid: '123',
   },
 };
 
