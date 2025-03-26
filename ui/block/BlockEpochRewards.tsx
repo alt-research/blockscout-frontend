@@ -25,7 +25,7 @@ const BlockEpochRewards = ({ heightOrHash }: Props) => {
     return <DataFetchAlert/>;
   }
 
-  if (!query.data || (!query.data.aggregated_election_rewards && !query.data.distribution)) {
+  if (!query.data) {
     return <span>No block epoch rewards data</span>;
   }
 

@@ -15,10 +15,6 @@ interface Props {
 const BlockEpochRewardsDistribution = ({ data, isLoading }: Props) => {
   const isMobile = useIsMobile();
 
-  if (!data.distribution) {
-    return null;
-  }
-
   if (!data.distribution.community_transfer && !data.distribution.carbon_offsetting_transfer && !data.distribution.reserve_bolster_transfer) {
     return null;
   }
