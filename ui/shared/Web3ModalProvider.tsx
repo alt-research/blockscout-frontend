@@ -31,7 +31,7 @@ const init = () => {
       projectId: feature.walletConnect.projectId,
       features: {
         analytics: false,
-        email: false,
+        email: true,
         socials: [],
         onramp: false,
         swaps: false,
