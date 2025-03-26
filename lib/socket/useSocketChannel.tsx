@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useSocket } from './context';
 
-const CHANNEL_REGISTRY: Record<string, { channel: Channel; subscribers: number }> = {};
+const CHANNEL_REGISTRY: Record<string, Channel> = {};
 
 interface Params {
   topic: string | undefined;
@@ -53,12 +53,11 @@ export default function useSocketChannel({ topic, params, isDisabled, onJoin, on
 
     let ch: Channel;
     if (CHANNEL_REGISTRY[topic]) {
-      ch = CHANNEL_REGISTRY[topic].channel;
-      CHANNEL_REGISTRY[topic].subscribers++;
+      ch = CHANNEL_REGISTRY[topic];
       onJoinRef.current?.(ch, '');
     } else {
       ch = socket.channel(topic);
-      CHANNEL_REGISTRY[topic] = { channel: ch, subscribers: 1 };
+      CHANNEL_REGISTRY[topic] = ch;
       ch.join()
         .receive('ok', (message) => onJoinRef.current?.(ch, message))
         .receive('error', () => {
@@ -69,14 +68,8 @@ export default function useSocketChannel({ topic, params, isDisabled, onJoin, on
     setChannel(ch);
 
     return () => {
-      if (CHANNEL_REGISTRY[topic]) {
-        CHANNEL_REGISTRY[topic].subscribers > 0 && CHANNEL_REGISTRY[topic].subscribers--;
-        if (CHANNEL_REGISTRY[topic].subscribers === 0) {
-          ch.leave();
-          delete CHANNEL_REGISTRY[topic];
-        }
-      }
-
+      ch.leave();
+      delete CHANNEL_REGISTRY[topic];
       setChannel(undefined);
     };
   }, [ socket, topic, params, isDisabled, onSocketError ]);

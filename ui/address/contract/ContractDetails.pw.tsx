@@ -40,8 +40,7 @@ test.describe('full view', () => {
       },
     };
     const component = await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-    const socket = await createSocket();
-    await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
+    await createSocket();
     await expect(component).toHaveScreenshot();
   });
 
@@ -52,8 +51,7 @@ test.describe('full view', () => {
       },
     };
     const component = await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-    const socket = await createSocket();
-    await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
+    await createSocket();
     await expect(component).toHaveScreenshot();
   });
 
@@ -64,8 +62,7 @@ test.describe('full view', () => {
       },
     };
     const component = await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-    const socket = await createSocket();
-    await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
+    await createSocket();
     await expect(component).toHaveScreenshot();
   });
 
@@ -76,8 +73,7 @@ test.describe('full view', () => {
       },
     };
     const component = await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-    const socket = await createSocket();
-    await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
+    await createSocket();
     await expect(component).toHaveScreenshot();
   });
 });
@@ -89,8 +85,7 @@ test.describe('mobile view', () => {
     await mockApiResponse('contract', contractMock.withChangedByteCode, { pathParams: { hash: addressMock.contract.hash } });
     await mockApiResponse('contract', contractMock.withChangedByteCode, { pathParams: { hash: addressMock.contract.implementations?.[0].address as string } });
     const component = await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-    const socket = await createSocket();
-    await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
+    await createSocket();
     await expect(component).toHaveScreenshot();
   });
 });
@@ -100,7 +95,7 @@ test('verified via lookup in eth_bytecode_db', async({ render, mockApiResponse, 
   await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
 
   const socket = await createSocket();
-  const channel = await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
+  const channel = await socketServer.joinChannel(socket, 'addresses:' + addressMock.contract.hash.toLowerCase());
   await page.waitForResponse(contractApiUrl);
   socketServer.sendMessage(socket, channel, 'smart_contract_was_verified', {});
   const request = await page.waitForRequest(addressApiUrl);
@@ -108,11 +103,9 @@ test('verified via lookup in eth_bytecode_db', async({ render, mockApiResponse, 
   expect(request).toBeTruthy();
 });
 
-test('verified with multiple sources', async({ render, page, mockApiResponse, createSocket }) => {
+test('verified with multiple sources', async({ render, page, mockApiResponse }) => {
   await mockApiResponse('contract', contractMock.withMultiplePaths, { pathParams: { hash: addressMock.contract.hash } });
   await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-  const socket = await createSocket();
-  await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
 
   const section = page.locator('section', { hasText: 'Contract source code' });
   await expect(section).toHaveScreenshot();
@@ -124,7 +117,7 @@ test('verified with multiple sources', async({ render, page, mockApiResponse, cr
   await expect(section).toHaveScreenshot();
 });
 
-test('self destructed', async({ render, mockApiResponse, page, createSocket }) => {
+test('self destructed', async({ render, mockApiResponse, page }) => {
   const hooksConfig = {
     router: {
       query: { hash: addressMock.contract.hash, tab: 'contract_bytecode' },
@@ -132,19 +125,15 @@ test('self destructed', async({ render, mockApiResponse, page, createSocket }) =
   };
   await mockApiResponse('contract', contractMock.selfDestructed, { pathParams: { hash: addressMock.contract.hash } });
   await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-  const socket = await createSocket();
-  await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
 
   const section = page.locator('section', { hasText: 'Contract creation code' });
   await expect(section).toHaveScreenshot();
 });
 
-test('non verified', async({ render, mockApiResponse, createSocket }) => {
+test('non verified', async({ render, mockApiResponse }) => {
   await mockApiResponse('address', { ...addressMock.contract, name: null }, { pathParams: { hash: addressMock.contract.hash } });
   await mockApiResponse('contract', contractMock.nonVerified, { pathParams: { hash: addressMock.contract.hash } });
   const component = await render(<ContractDetails/>, { hooksConfig }, { withSocket: true });
-  const socket = await createSocket();
-  await socketServer.joinChannel(socket, `addresses:${ addressMock.contract.hash.toLowerCase() }`);
 
   await expect(component).toHaveScreenshot();
 });
