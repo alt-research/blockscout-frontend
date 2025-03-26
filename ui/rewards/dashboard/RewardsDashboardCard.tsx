@@ -1,12 +1,9 @@
 import { Flex, Text, useColorModeValue, Tag } from '@chakra-ui/react';
 import React from 'react';
 
-import HintPopover from 'ui/shared/HintPopover';
-
 type Props = {
-  title: string;
+  title?: string;
   description: string | React.ReactNode;
-  hint?: string | React.ReactNode;
   availableSoon?: boolean;
   blurFilter?: boolean;
   contentAfter?: React.ReactNode;
@@ -16,7 +13,7 @@ type Props = {
 };
 
 const RewardsDashboardCard = ({
-  title, description, hint, availableSoon, contentAfter,
+  title, description, availableSoon, contentAfter,
   direction = 'column', children, blurFilter,
 }: Props) => {
   return (
@@ -37,19 +34,12 @@ const RewardsDashboardCard = ({
         p={{ base: 1.5, md: 3 }}
         w={{ base: 'full', md: direction === 'row' ? '340px' : 'full' }}
       >
-        <Flex alignItems="center" gap={ 2 }>
-          <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="500">{ title }</Text>
-          { hint && (
-            <HintPopover
-              label={ hint }
-              popoverContentProps={{
-                maxW: { base: 'calc(100vw - 8px)', lg: '210px' },
-              }}
-              popoverBodyProps={{ textAlign: 'center' }}
-            />
-          ) }
-          { availableSoon && <Tag colorScheme="blue">Available soon</Tag> }
-        </Flex>
+        { title && (
+          <Flex alignItems="center" gap={ 2 }>
+            <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="500">{ title }</Text>
+            { availableSoon && <Tag colorScheme="blue">Available soon</Tag> }
+          </Flex>
+        ) }
         <Text as="div" fontSize="sm">
           { description }
         </Text>
