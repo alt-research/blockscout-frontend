@@ -77,6 +77,7 @@ export default function useAddressQuery({ hash, isEnabled = true }: Params): Add
         creation_transaction_hash: null,
         exchange_rate: null,
         ens_domain_name: null,
+        has_decompiled_code: false,
         has_logs: false,
         has_token_transfers: false,
         has_tokens: false,
