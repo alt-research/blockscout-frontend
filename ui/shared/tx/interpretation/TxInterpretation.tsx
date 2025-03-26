@@ -1,4 +1,4 @@
-import { Tooltip, Image, chakra, useColorModeValue } from '@chakra-ui/react';
+import { Tooltip, Image, chakra } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -38,7 +38,6 @@ type Props = {
   isLoading?: boolean;
   addressDataMap?: Record<string, AddressParam>;
   className?: string;
-  isNoves?: boolean;
 };
 
 type NonStringTxInterpretationVariable = Exclude<TxInterpretationVariable, TxInterpretationVariableString>;
@@ -174,8 +173,7 @@ const TxInterpretationElementByType = (
   }
 };
 
-const TxInterpretation = ({ summary, isLoading, addressDataMap, className, isNoves }: Props) => {
-  const novesLogoUrl = useColorModeValue('/static/noves-logo.svg', '/static/noves-logo-dark.svg');
+const TxInterpretation = ({ summary, isLoading, addressDataMap, className }: Props) => {
   if (!summary) {
     return null;
   }
@@ -193,7 +191,7 @@ const TxInterpretation = ({ summary, isLoading, addressDataMap, className, isNov
   const chunks = getStringChunks(intermediateResult);
 
   return (
-    <Skeleton isLoaded={ !isLoading } className={ className } fontWeight={ 500 } whiteSpace="pre-wrap">
+    <Skeleton isLoaded={ !isLoading } className={ className } fontWeight={ 500 } whiteSpace="pre-wrap" >
       <Tooltip label="Transaction summary">
         <IconSvg name="lightning" boxSize={ 5 } color="text_secondary" mr={ 1 } verticalAlign="text-top"/>
       </Tooltip>
@@ -218,14 +216,6 @@ const TxInterpretation = ({ summary, isLoading, addressDataMap, className, isNov
           </chakra.span>
         );
       }) }
-      { isNoves && (
-        <Tooltip label="Human readable transaction provided by Noves.fi">
-          <Tag ml={ 2 } display="inline-flex" alignItems="center" verticalAlign="unset" transform="translateY(-2px)">
-            by
-            <Image src={ novesLogoUrl } alt="Noves logo" h="12px" ml={ 1.5 }/>
-          </Tag>
-        </Tooltip>
-      ) }
     </Skeleton>
   );
 };
