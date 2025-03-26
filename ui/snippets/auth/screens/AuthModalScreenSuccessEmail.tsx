@@ -16,7 +16,7 @@ interface Props {
 
 const AuthModalScreenSuccessEmail = ({ email, onConnectWallet, onClose, isAuth, profile }: Props) => {
   const handleConnectWalletClick = React.useCallback(() => {
-    onConnectWallet({ type: 'connect_wallet', isAuth: true, loginToRewards: true });
+    onConnectWallet({ type: 'connect_wallet', isAuth: true });
   }, [ onConnectWallet ]);
 
   if (isAuth) {

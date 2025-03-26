@@ -1,8 +1,6 @@
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useBoolean, useDisclosure } from '@chakra-ui/react';
 import React, { useCallback, useEffect } from 'react';
 
-import type { Screen } from 'ui/snippets/auth/types';
-
 import { useRewardsContext } from 'lib/contexts/rewards';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useWallet from 'lib/web3/useWallet';
@@ -27,7 +25,7 @@ const RewardsLoginModal = () => {
 
   const [ isLoginStep, setIsLoginStep ] = useBoolean(true);
   const [ isReferral, setIsReferral ] = useBoolean(false);
-  const [ authModalInitialScreen, setAuthModalInitialScreen ] = React.useState<Screen>();
+  const [ isAuth, setIsAuth ] = useBoolean(false);
   const authModal = useDisclosure();
 
   useEffect(() => {
@@ -44,18 +42,15 @@ const RewardsLoginModal = () => {
     setIsLoginStep.off();
   }, [ setIsLoginStep, setIsReferral ]);
 
-  const handleAuthModalOpen = useCallback((isAuth: boolean, trySharedLogin?: boolean) => {
-    setAuthModalInitialScreen({ type: 'connect_wallet', isAuth, loginToRewards: trySharedLogin });
+  const handleAuthModalOpen = useCallback((isAuth: boolean) => {
+    setIsAuth[isAuth ? 'on' : 'off']();
     authModal.onOpen();
-  }, [ authModal, setAuthModalInitialScreen ]);
+  }, [ authModal, setIsAuth ]);
 
-  const handleAuthModalClose = useCallback((isSuccess?: boolean, rewardsApiToken?: string) => {
-    if (isSuccess && rewardsApiToken) {
-      closeLoginModal();
-    }
-    setAuthModalInitialScreen(undefined);
+  const handleAuthModalClose = useCallback(() => {
+    setIsAuth.off();
     authModal.onClose();
-  }, [ authModal, setAuthModalInitialScreen, closeLoginModal ]);
+  }, [ authModal, setIsAuth ]);
 
   return (
     <>
@@ -79,10 +74,10 @@ const RewardsLoginModal = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-      { authModal.isOpen && authModalInitialScreen && (
+      { authModal.isOpen && (
         <AuthModal
           onClose={ handleAuthModalClose }
-          initialScreen={ authModalInitialScreen }
+          initialScreen={{ type: 'connect_wallet', isAuth }}
           mixpanelConfig={ MIXPANEL_CONFIG }
           closeOnError
         />

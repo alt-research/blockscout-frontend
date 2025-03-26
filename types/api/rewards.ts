@@ -5,9 +5,6 @@ export type RewardsConfigResponse = {
     daily_claim: string;
     referral_share: string;
   };
-  auth: {
-    shared_siwe_login: boolean;
-  };
 };
 
 export type RewardsCheckRefCodeResponse = {
@@ -16,7 +13,6 @@ export type RewardsCheckRefCodeResponse = {
 
 export type RewardsNonceResponse = {
   nonce: string;
-  merits_login_nonce?: string;
 };
 
 export type RewardsCheckUserResponse = {

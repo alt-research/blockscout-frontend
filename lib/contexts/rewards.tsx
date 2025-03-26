@@ -44,7 +44,6 @@ type TRewardsContext = {
   isLoginModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
-  saveApiToken: (token: string | undefined) => void;
   login: (refCode: string) => Promise<{ isNewUser?: boolean; invalidRefCodeError?: boolean }>;
   claim: () => Promise<void>;
 };
@@ -69,7 +68,6 @@ const initialState = {
   isLoginModalOpen: false,
   openLoginModal: () => {},
   closeLoginModal: () => {},
-  saveApiToken: () => {},
   login: async() => ({}),
   claim: async() => {},
 };
@@ -267,7 +265,6 @@ export function RewardsContextProvider({ children }: Props) {
       rewardsConfigQuery,
       checkUserQuery,
       apiToken,
-      saveApiToken,
       isInitialized,
       isLoginModalOpen,
       openLoginModal: setIsLoginModalOpen.on,
@@ -277,7 +274,7 @@ export function RewardsContextProvider({ children }: Props) {
     };
   }, [
     isLoginModalOpen, setIsLoginModalOpen, balancesQuery, dailyRewardQuery, checkUserQuery,
-    apiToken, login, claim, referralsQuery, rewardsConfigQuery, isInitialized, saveApiToken,
+    apiToken, login, claim, referralsQuery, rewardsConfigQuery, isInitialized,
   ]);
 
   return (
