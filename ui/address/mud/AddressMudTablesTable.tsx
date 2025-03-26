@@ -11,11 +11,12 @@ type Props = {
   items: AddressMudTables['items'];
   isLoading: boolean;
   top: number;
+  scrollRef?: React.RefObject<HTMLDivElement>;
   hash: string;
 };
 
 //sorry for the naming
-const AddressMudTablesTable = ({ items, isLoading, top, hash }: Props) => {
+const AddressMudTablesTable = ({ items, isLoading, top, scrollRef, hash }: Props) => {
   return (
     <Table style={{ tableLayout: 'auto' }}>
       <Thead top={ top }>
@@ -32,6 +33,7 @@ const AddressMudTablesTable = ({ items, isLoading, top, hash }: Props) => {
             key={ item.table.table_id + (isLoading ? String(index) : '') }
             item={ item }
             isLoading={ isLoading }
+            scrollRef={ scrollRef }
             hash={ hash }
           />
         )) }

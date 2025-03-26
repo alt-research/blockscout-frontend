@@ -14,12 +14,13 @@ import AddressMudRecordValues from './AddressMudRecordValues';
 import { getValueString } from './utils';
 
 type Props = {
+  scrollRef?: React.RefObject<HTMLDivElement>;
   isQueryEnabled?: boolean;
   tableId: string;
   recordId: string;
 };
 
-const AddressMudRecord = ({ tableId, recordId, isQueryEnabled = true }: Props) => {
+const AddressMudRecord = ({ tableId, recordId, isQueryEnabled = true, scrollRef }: Props) => {
   const router = useRouter();
 
   const hash = getQueryParamString(router.query.hash);
@@ -49,6 +50,7 @@ const AddressMudRecord = ({ tableId, recordId, isQueryEnabled = true }: Props) =
           recordId={ recordId }
           recordName={ data.record.id }
           mb={ 6 }
+          scrollRef={ scrollRef }
         />
       ) }
       <Show above="lg" ssr={ false }>

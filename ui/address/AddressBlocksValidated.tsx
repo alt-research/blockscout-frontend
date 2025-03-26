@@ -27,11 +27,12 @@ import AddressBlocksValidatedTableItem from './blocksValidated/AddressBlocksVali
 const OVERLOAD_COUNT = 75;
 
 interface Props {
+  scrollRef?: React.RefObject<HTMLDivElement>;
   shouldRender?: boolean;
   isQueryEnabled?: boolean;
 }
 
-const AddressBlocksValidated = ({ shouldRender = true, isQueryEnabled = true }: Props) => {
+const AddressBlocksValidated = ({ scrollRef, shouldRender = true, isQueryEnabled = true }: Props) => {
   const [ socketAlert, setSocketAlert ] = React.useState('');
   const [ newItemsCount, setNewItemsCount ] = React.useState(0);
 
@@ -43,6 +44,7 @@ const AddressBlocksValidated = ({ shouldRender = true, isQueryEnabled = true }: 
   const query = useQueryWithPages({
     resourceName: 'address_blocks_validated',
     pathParams: { hash: addressHash },
+    scrollRef,
     options: {
       enabled: isQueryEnabled,
       placeholderData: generateListStub<'address_blocks_validated'>(

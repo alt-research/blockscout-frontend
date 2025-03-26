@@ -16,11 +16,12 @@ import AddressCsvExportLink from './AddressCsvExportLink';
 import AddressEpochRewardsListItem from './epochRewards/AddressEpochRewardsListItem';
 
 type Props = {
+  scrollRef?: React.RefObject<HTMLDivElement>;
   shouldRender?: boolean;
   isQueryEnabled?: boolean;
 };
 
-const AddressEpochRewards = ({ shouldRender = true, isQueryEnabled = true }: Props) => {
+const AddressEpochRewards = ({ scrollRef, shouldRender = true, isQueryEnabled = true }: Props) => {
   const router = useRouter();
   const isMounted = useIsMounted();
 
@@ -31,6 +32,7 @@ const AddressEpochRewards = ({ shouldRender = true, isQueryEnabled = true }: Pro
     pathParams: {
       hash,
     },
+    scrollRef,
     options: {
       enabled: isQueryEnabled && Boolean(hash),
       placeholderData: generateListStub<'address_epoch_rewards'>(EPOCH_REWARD_ITEM, 50, { next_page_params: {

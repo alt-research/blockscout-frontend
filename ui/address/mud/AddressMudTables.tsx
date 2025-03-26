@@ -18,10 +18,11 @@ import AddressMudTablesListItem from './AddressMudTablesListItem';
 import AddressMudTablesTable from './AddressMudTablesTable';
 
 type Props = {
+  scrollRef?: React.RefObject<HTMLDivElement>;
   isQueryEnabled?: boolean;
 };
 
-const AddressMudTables = ({ isQueryEnabled = true }: Props) => {
+const AddressMudTables = ({ scrollRef, isQueryEnabled = true }: Props) => {
   const router = useRouter();
 
   const hash = getQueryParamString(router.query.hash);
@@ -33,6 +34,7 @@ const AddressMudTables = ({ isQueryEnabled = true }: Props) => {
     resourceName: 'address_mud_tables',
     pathParams: { hash },
     filters: { q: debouncedSearchTerm },
+    scrollRef,
     options: {
       enabled: isQueryEnabled,
       placeholderData: generateListStub<'address_mud_tables'>(ADDRESS_MUD_TABLE_ITEM, 3, { next_page_params: {
@@ -70,6 +72,7 @@ const AddressMudTables = ({ isQueryEnabled = true }: Props) => {
           items={ data.items }
           isLoading={ isPlaceholderData }
           top={ ACTION_BAR_HEIGHT_DESKTOP }
+          scrollRef={ scrollRef }
           hash={ hash }
         />
       </Hide>

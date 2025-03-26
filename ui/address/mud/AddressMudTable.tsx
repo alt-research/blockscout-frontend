@@ -23,13 +23,14 @@ const BREADCRUMBS_HEIGHT = 60;
 const FILTERS_HEIGHT = 44;
 
 type Props = {
+  scrollRef?: React.RefObject<HTMLDivElement>;
   isQueryEnabled?: boolean;
   tableId: string;
 };
 
 type FilterKeys = keyof AddressMudRecordsFilter;
 
-const AddressMudTable = ({ tableId, isQueryEnabled = true }: Props) => {
+const AddressMudTable = ({ scrollRef, tableId, isQueryEnabled = true }: Props) => {
   const router = useRouter();
   const [ sorting, setSorting ] =
     React.useState<AddressMudRecordsSorting | undefined>(getSortParamsFromQuery<AddressMudRecordsSorting>(router.query, SORT_SEQUENCE));
@@ -44,6 +45,7 @@ const AddressMudTable = ({ tableId, isQueryEnabled = true }: Props) => {
     pathParams: { hash, table_id: tableId },
     filters,
     sorting,
+    scrollRef,
     options: {
       // no placeholder data because the structure of a table is unpredictable
       enabled: isQueryEnabled,
@@ -101,6 +103,7 @@ const AddressMudTable = ({ tableId, isQueryEnabled = true }: Props) => {
       hash={ hash }
       tableId={ tableId }
       tableName={ data?.table.table_full_name }
+      scrollRef={ scrollRef }
       mb={ hasActiveFilters ? 4 : 0 }
     />
   ) : null;
@@ -124,6 +127,7 @@ const AddressMudTable = ({ tableId, isQueryEnabled = true }: Props) => {
       setFilters={ setFilters }
       filters={ filters }
       toggleTableHasHorizontalScroll={ setTableHasHorizontalScroll.toggle }
+      scrollRef={ scrollRef }
       hash={ hash }
     />
   ) : null;

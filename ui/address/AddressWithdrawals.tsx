@@ -14,10 +14,11 @@ import BeaconChainWithdrawalsListItem from 'ui/withdrawals/beaconChain/BeaconCha
 import BeaconChainWithdrawalsTable from 'ui/withdrawals/beaconChain/BeaconChainWithdrawalsTable';
 
 type Props = {
+  scrollRef?: React.RefObject<HTMLDivElement>;
   shouldRender?: boolean;
   isQueryEnabled?: boolean;
 };
-const AddressWithdrawals = ({ shouldRender = true, isQueryEnabled = true }: Props) => {
+const AddressWithdrawals = ({ scrollRef, shouldRender = true, isQueryEnabled = true }: Props) => {
   const router = useRouter();
   const isMounted = useIsMounted();
 
@@ -26,6 +27,7 @@ const AddressWithdrawals = ({ shouldRender = true, isQueryEnabled = true }: Prop
   const { data, isPlaceholderData, isError, pagination } = useQueryWithPages({
     resourceName: 'address_withdrawals',
     pathParams: { hash },
+    scrollRef,
     options: {
       enabled: isQueryEnabled,
       placeholderData: generateListStub<'address_withdrawals'>(WITHDRAWAL, 50, { next_page_params: {

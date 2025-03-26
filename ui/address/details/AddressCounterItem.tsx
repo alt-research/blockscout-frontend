@@ -14,6 +14,7 @@ interface Props {
   prop: keyof AddressCounters;
   query: UseQueryResult<AddressCounters, ResourceError<unknown>>;
   address: string;
+  onClick: () => void;
   isAddressQueryLoading: boolean;
   isDegradedData: boolean;
 }
@@ -24,12 +25,7 @@ const PROP_TO_TAB = {
   validations_count: 'blocks_validated',
 };
 
-const AddressCounterItem = ({ prop, query, address, isAddressQueryLoading, isDegradedData }: Props) => {
-
-  const handleClick = React.useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
+const AddressCounterItem = ({ prop, query, address, onClick, isAddressQueryLoading, isDegradedData }: Props) => {
   if (query.isPlaceholderData || isAddressQueryLoading) {
     return <Skeleton h={ 5 } w="80px" borderRadius="full"/>;
   }
@@ -57,8 +53,8 @@ const AddressCounterItem = ({ prop, query, address, isAddressQueryLoading, isDeg
       return (
         <LinkInternal
           href={ route({ pathname: '/address/[hash]', query: { hash: address, tab: PROP_TO_TAB[prop] } }) }
+          onClick={ onClick }
           scroll={ false }
-          onClick={ handleClick }
         >
           { Number(data).toLocaleString() }
         </LinkInternal>
