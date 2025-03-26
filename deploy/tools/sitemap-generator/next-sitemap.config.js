@@ -6,26 +6,14 @@ const stripTrailingSlash = (str) => str[str.length - 1] === '/' ? str.slice(0, -
 const fetchResource = async(url, formatter) => {
   console.log('🌀 [next-sitemap] Fetching resource:', url);
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15_000);
-
-    const res = await fetch(url, {
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
+    const res = await fetch(url);
     if (res.ok) {
       const data = await res.json();
       console.log('✅ [next-sitemap] Data fetched for resource:', url);
       return formatter(data);
     }
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.log('🚨 [next-sitemap] Request timeout for resource:', url);
-    } else {
-      console.log('🚨 [next-sitemap] Error fetching resource:', url, error);
-    }
+    console.log('🚨 [next-sitemap] Error fetching resource:', url, error);
   }
 };
 
