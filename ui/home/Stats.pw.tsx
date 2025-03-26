@@ -12,7 +12,6 @@ test.describe('all items', () => {
   test.beforeEach(async({ render, mockApiResponse, mockEnvs }) => {
     await mockEnvs([
       [ 'NEXT_PUBLIC_HOMEPAGE_STATS', '["total_blocks","average_block_time","total_txs","wallet_addresses","gas_tracker","btc_locked"]' ],
-      [ 'NEXT_PUBLIC_STATS_API_HOST', '' ],
     ]);
     await mockApiResponse('stats', statsMock.withBtcLocked);
     component = await render(<Stats/>);
@@ -23,10 +22,7 @@ test.describe('all items', () => {
   });
 });
 
-test('no gas info', async({ render, mockApiResponse, mockEnvs }) => {
-  await mockEnvs([
-    [ 'NEXT_PUBLIC_STATS_API_HOST', '' ],
-  ]);
+test('no gas info', async({ render, mockApiResponse }) => {
   await mockApiResponse('stats', statsMock.withoutGasInfo);
   const component = await render(<Stats/>);
 
@@ -36,7 +32,6 @@ test('no gas info', async({ render, mockApiResponse, mockEnvs }) => {
 test('4 items default view +@mobile -@default', async({ render, mockApiResponse, mockEnvs }) => {
   await mockEnvs([
     [ 'NEXT_PUBLIC_HOMEPAGE_STATS', '["total_txs","gas_tracker","wallet_addresses","total_blocks"]' ],
-    [ 'NEXT_PUBLIC_STATS_API_HOST', '' ],
   ]);
   await mockApiResponse('stats', statsMock.base);
   const component = await render(<Stats/>);
@@ -46,7 +41,6 @@ test('4 items default view +@mobile -@default', async({ render, mockApiResponse,
 test('3 items default view +@mobile -@default', async({ render, mockApiResponse, mockEnvs }) => {
   await mockEnvs([
     [ 'NEXT_PUBLIC_HOMEPAGE_STATS', '["total_txs","wallet_addresses","total_blocks"]' ],
-    [ 'NEXT_PUBLIC_STATS_API_HOST', '' ],
   ]);
   await mockApiResponse('stats', statsMock.base);
   const component = await render(<Stats/>);

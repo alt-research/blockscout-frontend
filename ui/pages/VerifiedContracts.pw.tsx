@@ -6,8 +6,7 @@ import { test, expect } from 'playwright/lib';
 
 import VerifiedContracts from './VerifiedContracts';
 
-test('base view +@mobile', async({ render, mockTextAd, mockApiResponse, mockEnvs }) => {
-  await mockEnvs([ [ 'NEXT_PUBLIC_STATS_API_HOST', '' ] ]);
+test('base view +@mobile', async({ render, mockTextAd, mockApiResponse }) => {
   await mockTextAd();
   await mockApiResponse('verified_contracts', verifiedContractsMock.baseResponse);
   await mockApiResponse('verified_contracts_counters', verifiedContractsCountersMock);

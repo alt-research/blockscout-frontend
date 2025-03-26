@@ -7,7 +7,7 @@ import type { HomeStatsWidgetId } from 'types/homepage';
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { WEI } from 'lib/consts';
-import { HOMEPAGE_STATS, HOMEPAGE_STATS_MICROSERVICE } from 'stubs/stats';
+import { HOMEPAGE_STATS } from 'stubs/stats';
 import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
 import GasPrice from 'ui/shared/gas/GasPrice';
 import IconSvg from 'ui/shared/IconSvg';
@@ -15,31 +15,18 @@ import type { Props as StatsWidgetProps } from 'ui/shared/stats/StatsWidget';
 import StatsWidget from 'ui/shared/stats/StatsWidget';
 
 const rollupFeature = config.features.rollup;
-const isStatsFeatureEnabled = config.features.stats.isEnabled;
 
 const Stats = () => {
   const [ hasGasTracker, setHasGasTracker ] = React.useState(config.features.gasTracker.isEnabled);
-
-  // data from stats microservice is prioritized over data from stats api
-  const statsQuery = useApiQuery('stats_main', {
-    queryOptions: {
-      refetchOnMount: false,
-      placeholderData: isStatsFeatureEnabled ? HOMEPAGE_STATS_MICROSERVICE : undefined,
-      enabled: isStatsFeatureEnabled,
-    },
-  });
-
-  const apiQuery = useApiQuery('stats', {
+  const { data, isPlaceholderData, isError, dataUpdatedAt } = useApiQuery('stats', {
     queryOptions: {
       refetchOnMount: false,
       placeholderData: HOMEPAGE_STATS,
     },
   });
 
-  const isPlaceholderData = statsQuery.isPlaceholderData || apiQuery.isPlaceholderData;
-
   React.useEffect(() => {
-    if (!isPlaceholderData && !apiQuery.data?.gas_prices?.average) {
+    if (!isPlaceholderData && !data?.gas_prices?.average) {
       setHasGasTracker(false);
     }
   // should run only after initial fetch
@@ -82,7 +69,7 @@ const Stats = () => {
     }
   })();
 
-  if (apiQuery.isError || statsQuery.isError || latestBatchQuery?.isError) {
+  if (isError || latestBatchQuery?.isError) {
     return null;
   }
 
@@ -92,16 +79,13 @@ const Stats = () => {
     id: HomeStatsWidgetId;
   }
 
-  const apiData = apiQuery.data;
-  const statsData = statsQuery.data;
-
   const items: Array<Item> = (() => {
-    if (!statsData && !apiData) {
+    if (!data) {
       return [];
     }
 
-    const gasInfoTooltip = hasGasTracker && apiData?.gas_prices && apiData.gas_prices.average ? (
-      <GasInfoTooltip data={ apiData } dataUpdatedAt={ apiQuery.dataUpdatedAt }>
+    const gasInfoTooltip = hasGasTracker && data.gas_prices && data.gas_prices.average ? (
+      <GasInfoTooltip data={ data } dataUpdatedAt={ dataUpdatedAt }>
         <IconSvg
           isLoading={ isLoading }
           name="info"
@@ -123,76 +107,64 @@ const Stats = () => {
         href: { pathname: '/batches' as const },
         isLoading,
       },
-      (statsData?.total_blocks?.value || apiData?.total_blocks) && {
+      {
         id: 'total_blocks' as const,
         icon: 'block_slim' as const,
-        label: statsData?.total_blocks?.title || 'Total blocks',
-        value: Number(statsData?.total_blocks?.value || apiData?.total_blocks).toLocaleString(),
+        label: 'Total blocks',
+        value: Number(data.total_blocks).toLocaleString(),
         href: { pathname: '/blocks' as const },
         isLoading,
       },
-      (statsData?.average_block_time?.value || apiData?.average_block_time) && {
+      {
         id: 'average_block_time' as const,
         icon: 'clock-light' as const,
-        label: statsData?.average_block_time?.title || 'Average block time',
-        value: `${
-          statsData?.average_block_time?.value ?
-            Number(statsData.average_block_time.value).toFixed(1) :
-            (apiData!.average_block_time / 1000).toFixed(1)
-        }s`,
+        label: 'Average block time',
+        value: `${ (data.average_block_time / 1000).toFixed(1) }s`,
         isLoading,
       },
-      (statsData?.total_transactions?.value || apiData?.total_transactions) && {
+      {
         id: 'total_txs' as const,
         icon: 'transactions_slim' as const,
-        label: statsData?.total_transactions?.title || 'Total transactions',
-        value: Number(statsData?.total_transactions?.value || apiData?.total_transactions).toLocaleString(),
+        label: 'Total transactions',
+        value: Number(data.total_transactions).toLocaleString(),
         href: { pathname: '/txs' as const },
         isLoading,
       },
-      statsData?.total_operational_transactions?.value && {
-        id: 'total_operational_txs' as const,
-        icon: 'transactions_slim' as const,
-        label: statsData?.total_operational_transactions?.title || 'Total operational transactions',
-        value: Number(statsData?.total_operational_transactions?.value).toLocaleString(),
-        href: { pathname: '/txs' as const },
-        isLoading,
-      },
-      apiData?.last_output_root_size && {
+      data.last_output_root_size && {
         id: 'latest_l1_state_batch' as const,
         icon: 'txn_batches_slim' as const,
         label: 'Latest L1 state batch',
-        value: apiData?.last_output_root_size,
+        value: data.last_output_root_size,
         href: { pathname: '/batches' as const },
         isLoading,
       },
-      (statsData?.total_addresses?.value || apiData?.total_addresses) && {
+      {
         id: 'wallet_addresses' as const,
         icon: 'wallet' as const,
-        label: statsData?.total_addresses?.title || 'Wallet addresses',
-        value: Number(statsData?.total_addresses?.value || apiData?.total_addresses).toLocaleString(),
+        label: 'Wallet addresses',
+        value: Number(data.total_addresses).toLocaleString(),
         isLoading,
       },
-      hasGasTracker && apiData?.gas_prices && {
+      hasGasTracker && data.gas_prices && {
         id: 'gas_tracker' as const,
         icon: 'gas' as const,
         label: 'Gas tracker',
-        value: apiData.gas_prices.average ? <GasPrice data={ apiData.gas_prices.average }/> : 'N/A',
+        value: data.gas_prices.average ? <GasPrice data={ data.gas_prices.average }/> : 'N/A',
         hint: gasInfoTooltip,
         isLoading,
       },
-      apiData?.rootstock_locked_btc && {
+      data.rootstock_locked_btc && {
         id: 'btc_locked' as const,
         icon: 'coins/bitcoin' as const,
         label: 'BTC Locked in 2WP',
-        value: `${ BigNumber(apiData.rootstock_locked_btc).div(WEI).dp(0).toFormat() } RBTC`,
+        value: `${ BigNumber(data.rootstock_locked_btc).div(WEI).dp(0).toFormat() } RBTC`,
         isLoading,
       },
-      apiData?.celo && {
+      data.celo && {
         id: 'current_epoch' as const,
         icon: 'hourglass' as const,
         label: 'Current epoch',
-        value: `#${ apiData.celo.epoch_number }`,
+        value: `#${ data.celo.epoch_number }`,
         isLoading,
       },
     ]

@@ -16,7 +16,7 @@ interface Props {
 
 const CHART_MARGIN = { bottom: 5, left: 10, right: 10, top: 5 };
 
-const ChainIndicatorChartContent = ({ data }: Props) => {
+const ChainIndicatorChart = ({ data }: Props) => {
   const overlayRef = React.useRef<SVGRectElement>(null);
   const lineColor = useToken('colors', 'blue.500');
 
@@ -64,4 +64,4 @@ const ChainIndicatorChartContent = ({ data }: Props) => {
   );
 };
 
-export default React.memo(ChainIndicatorChartContent);
+export default React.memo(ChainIndicatorChart);
