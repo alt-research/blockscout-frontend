@@ -11,8 +11,7 @@ import { apos } from 'lib/html-entities';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { INTERNAL_TX } from 'stubs/internalTx';
 import { generateListStub } from 'stubs/utils';
-import InternalTxsList from 'ui/internalTxs/InternalTxsList';
-import InternalTxsTable from 'ui/internalTxs/InternalTxsTable';
+import AddressIntTxsTable from 'ui/address/internals/AddressIntTxsTable';
 import ActionBar from 'ui/shared/ActionBar';
 import DataListDisplay from 'ui/shared/DataListDisplay';
 import Pagination from 'ui/shared/pagination/Pagination';
@@ -20,6 +19,7 @@ import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
 
 import AddressCsvExportLink from './AddressCsvExportLink';
 import AddressTxsFilter from './AddressTxsFilter';
+import AddressIntTxsList from './internals/AddressIntTxsList';
 
 const getFilterValue = (getFilterValueFromQuery<AddressFromToFilter>).bind(null, AddressFromToFilterValues);
 
@@ -71,10 +71,10 @@ const AddressInternalTxs = ({ scrollRef, shouldRender = true, isQueryEnabled = t
   const content = data?.items ? (
     <>
       <Show below="lg" ssr={ false }>
-        <InternalTxsList data={ data.items } currentAddress={ hash } isLoading={ isPlaceholderData }/>
+        <AddressIntTxsList data={ data.items } currentAddress={ hash } isLoading={ isPlaceholderData }/>
       </Show>
       <Hide below="lg" ssr={ false }>
-        <InternalTxsTable data={ data.items } currentAddress={ hash } isLoading={ isPlaceholderData }/>
+        <AddressIntTxsTable data={ data.items } currentAddress={ hash } isLoading={ isPlaceholderData }/>
       </Hide>
     </>
   ) : null ;

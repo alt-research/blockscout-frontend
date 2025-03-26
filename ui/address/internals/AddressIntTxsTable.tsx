@@ -7,15 +7,15 @@ import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import { currencyUnits } from 'lib/units';
 import { default as Thead } from 'ui/shared/TheadSticky';
 
-import InternalTxsTableItem from './InternalTxsTableItem';
+import AddressIntTxsTableItem from './AddressIntTxsTableItem';
 
 interface Props {
   data: Array<InternalTransaction>;
-  currentAddress?: string;
+  currentAddress: string;
   isLoading?: boolean;
 }
 
-const InternalTxsTable = ({ data, currentAddress, isLoading }: Props) => {
+const AddressIntTxsTable = ({ data, currentAddress, isLoading }: Props) => {
   return (
     <AddressHighlightProvider>
       <Table>
@@ -32,7 +32,7 @@ const InternalTxsTable = ({ data, currentAddress, isLoading }: Props) => {
         </Thead>
         <Tbody>
           { data.map((item, index) => (
-            <InternalTxsTableItem
+            <AddressIntTxsTableItem
               key={ item.transaction_hash + '_' + index }
               { ...item }
               currentAddress={ currentAddress }
@@ -46,4 +46,4 @@ const InternalTxsTable = ({ data, currentAddress, isLoading }: Props) => {
   );
 };
 
-export default InternalTxsTable;
+export default AddressIntTxsTable;

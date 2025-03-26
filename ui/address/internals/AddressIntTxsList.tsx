@@ -3,19 +3,19 @@ import React from 'react';
 
 import type { InternalTransaction } from 'types/api/internalTransaction';
 
-import InternalTxsListItem from './InternalTxsListItem';
+import AddressIntTxsListItem from 'ui/address/internals/AddressIntTxsListItem';
 
 type Props = {
   data: Array<InternalTransaction>;
-  currentAddress?: string;
+  currentAddress: string;
   isLoading?: boolean;
 };
 
-const InternalTxsList = ({ data, currentAddress, isLoading }: Props) => {
+const AddressIntTxsList = ({ data, currentAddress, isLoading }: Props) => {
   return (
     <Box>
       { data.map((item, index) => (
-        <InternalTxsListItem
+        <AddressIntTxsListItem
           key={ item.transaction_hash + '_' + index }
           { ...item }
           currentAddress={ currentAddress }
@@ -26,4 +26,4 @@ const InternalTxsList = ({ data, currentAddress, isLoading }: Props) => {
   );
 };
 
-export default InternalTxsList;
+export default AddressIntTxsList;

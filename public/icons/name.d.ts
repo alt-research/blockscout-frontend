@@ -83,7 +83,6 @@
 	| "info"
 	| "integration/full"
 	| "integration/partial"
-	| "internal_txns"
 	| "key"
 	| "lightning_navbar"
 	| "lightning"

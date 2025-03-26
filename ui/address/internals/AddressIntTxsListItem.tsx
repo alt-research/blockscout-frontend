@@ -16,9 +16,9 @@ import TxStatus from 'ui/shared/statusTag/TxStatus';
 import TimeAgoWithTooltip from 'ui/shared/TimeAgoWithTooltip';
 import { TX_INTERNALS_ITEMS } from 'ui/tx/internals/utils';
 
-type Props = InternalTransaction & { currentAddress?: string; isLoading?: boolean };
+type Props = InternalTransaction & { currentAddress: string; isLoading?: boolean };
 
-const InternalTxsListItem = ({
+const TxInternalsListItem = ({
   type,
   from,
   to,
@@ -83,4 +83,4 @@ const InternalTxsListItem = ({
   );
 };
 
-export default InternalTxsListItem;
+export default TxInternalsListItem;

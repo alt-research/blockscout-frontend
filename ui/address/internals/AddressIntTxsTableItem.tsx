@@ -14,9 +14,9 @@ import TxStatus from 'ui/shared/statusTag/TxStatus';
 import TimeAgoWithTooltip from 'ui/shared/TimeAgoWithTooltip';
 import { TX_INTERNALS_ITEMS } from 'ui/tx/internals/utils';
 
-type Props = InternalTransaction & { currentAddress?: string; isLoading?: boolean };
+type Props = InternalTransaction & { currentAddress: string; isLoading?: boolean };
 
-const InternalTxsTableItem = ({
+const AddressIntTxsTableItem = ({
   type,
   from,
   to,
@@ -36,7 +36,7 @@ const InternalTxsTableItem = ({
   return (
     <Tr alignItems="top">
       <Td verticalAlign="middle">
-        <Flex rowGap={ 3 } flexDir="column">
+        <Flex rowGap={ 3 } flexWrap="wrap">
           <TxEntity
             hash={ txnHash }
             isLoading={ isLoading }
@@ -91,4 +91,4 @@ const InternalTxsTableItem = ({
   );
 };
 
-export default React.memo(InternalTxsTableItem);
+export default React.memo(AddressIntTxsTableItem);
