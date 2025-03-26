@@ -209,12 +209,8 @@ test.describe('with apps', () => {
     await mockConfigResponse('NEXT_PUBLIC_MARKETPLACE_CONFIG_URL', MARKETPLACE_CONFIG_URL, appsMock);
     await mockAssetResponse(appsMock[0].logo, './playwright/mocks/image_s.jpg');
     await mockAssetResponse(appsMock[1].logo, './playwright/mocks/image_s.jpg');
-    const hooksConfig = {
-      router: {
-        query: { q: 'o' },
-      },
-    };
-    await render(<SearchBar/>, { hooksConfig });
+
+    await render(<SearchBar/>);
     await page.getByPlaceholder(/search/i).fill('o');
     await page.waitForResponse(apiUrl);
 

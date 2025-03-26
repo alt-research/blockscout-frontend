@@ -111,11 +111,10 @@ export default function useRatings() {
   }, [ address, toast ]);
 
   useEffect(() => {
-    const isPlaceholderData = addressCountersQuery?.isPlaceholderData;
-    const transactionsCount = addressCountersQuery?.data?.transactions_count;
-    const canRate = address && !isPlaceholderData && Number(transactionsCount || 0) >= MIN_TRANSACTION_COUNT;
+    const { isPlaceholderData, data } = addressCountersQuery;
+    const canRate = address && !isPlaceholderData && Number(data?.transactions_count) >= MIN_TRANSACTION_COUNT;
     setCanRate(canRate);
-  }, [ address, addressCountersQuery?.isPlaceholderData, addressCountersQuery?.data?.transactions_count ]);
+  }, [ address, addressCountersQuery ]);
 
   const rateApp = useCallback(async(
     appId: string,
