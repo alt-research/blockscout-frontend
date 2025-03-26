@@ -8,8 +8,6 @@ import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
   onChange?: (searchTerm: string) => void;
-  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   className?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   placeholder: string;
@@ -19,7 +17,7 @@ type Props = {
   name?: string;
 };
 
-const FilterInput = ({ onChange, className, size = 'sm', placeholder, initialValue, isLoading, type, name, onFocus, onBlur }: Props) => {
+const FilterInput = ({ onChange, className, size = 'sm', placeholder, initialValue, isLoading, type, name }: Props) => {
   const [ filterQuery, setFilterQuery ] = useState(initialValue || '');
   const inputRef = React.useRef<HTMLInputElement>(null);
   const iconColor = useColorModeValue('blackAlpha.600', 'whiteAlpha.600');
@@ -64,8 +62,6 @@ const FilterInput = ({ onChange, className, size = 'sm', placeholder, initialVal
           whiteSpace="nowrap"
           type={ type }
           name={ name }
-          onFocus={ onFocus }
-          onBlur={ onBlur }
         />
 
         { filterQuery ? (

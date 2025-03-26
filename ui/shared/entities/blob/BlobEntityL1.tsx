@@ -14,7 +14,7 @@ const BlobEntityL1 = (props: BlobEntity.EntityProps) => {
     return null;
   }
 
-  const defaultHref = rollupFeature.parentChain.baseUrl + route({
+  const defaultHref = rollupFeature.L1BaseUrl + route({
     pathname: '/blobs/[hash]',
     query: { hash: props.hash },
   });

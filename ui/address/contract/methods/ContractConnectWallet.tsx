@@ -11,7 +11,7 @@ interface Props {
   isLoading?: boolean;
 }
 
-const ConnectWalletAlert = ({ isLoading }: Props) => {
+const ContractConnectWallet = ({ isLoading }: Props) => {
   const web3Wallet = useWeb3Wallet({ source: 'Smart contracts' });
   const isMobile = useIsMobile();
 
@@ -62,4 +62,4 @@ const ConnectWalletAlert = ({ isLoading }: Props) => {
 
 const Fallback = () => null;
 
-export default config.features.blockchainInteraction.isEnabled ? ConnectWalletAlert : Fallback;
+export default config.features.blockchainInteraction.isEnabled ? ContractConnectWallet : Fallback;

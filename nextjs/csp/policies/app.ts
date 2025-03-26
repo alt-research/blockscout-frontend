@@ -52,7 +52,6 @@ export function app(): CspDev.DirectiveDescriptor {
 
       // chain RPC server
       ...config.chain.rpcUrls,
-      ...(getFeaturePayload(config.features.rollup)?.parentChain?.rpcUrls ?? []),
       'https://infragrid.v.network', // RPC providers
 
       // github (spec for api-docs page)

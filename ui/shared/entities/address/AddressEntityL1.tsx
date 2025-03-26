@@ -14,7 +14,7 @@ const AddressEntityL1 = (props: AddressEntity.EntityProps) => {
     return null;
   }
 
-  const defaultHref = rollupFeature.parentChain.baseUrl + route({
+  const defaultHref = rollupFeature.L1BaseUrl + route({
     pathname: '/address/[hash]',
     query: {
       ...props.query,

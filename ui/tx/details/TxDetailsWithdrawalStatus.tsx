@@ -38,7 +38,7 @@ const WITHDRAWAL_STATUS_ORDER_GAME: Array<OptimisticL2WithdrawalStatus> = [
 
 const rollupFeature = config.features.rollup;
 
-const TxDetailsWithdrawalStatusOptimistic = ({ status, l1TxHash }: Props) => {
+const TxDetailsWithdrawalStatus = ({ status, l1TxHash }: Props) => {
   if (!status || !rollupFeature.isEnabled || rollupFeature.type !== 'optimistic') {
     return null;
   }
@@ -94,4 +94,4 @@ const TxDetailsWithdrawalStatusOptimistic = ({ status, l1TxHash }: Props) => {
   );
 };
 
-export default React.memo(TxDetailsWithdrawalStatusOptimistic);
+export default React.memo(TxDetailsWithdrawalStatus);

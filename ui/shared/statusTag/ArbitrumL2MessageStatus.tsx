@@ -21,7 +21,7 @@ const ArbitrumL2MessageStatus = ({ status, isLoading }: Props) => {
       break;
     }
     case 'confirmed': {
-      type = 'pending';
+      type = 'ok';
       text = 'Ready for relay';
       break;
     }

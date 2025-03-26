@@ -1,28 +1,23 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
-import type { AppKitNetwork } from '@reown/appkit/networks';
-import type { Chain } from 'viem';
 import { fallback, http } from 'viem';
 import { createConfig } from 'wagmi';
 
 import config from 'configs/app';
-import { currentChain, parentChain } from 'lib/web3/chains';
-
+import currentChain from 'lib/web3/currentChain';
 const feature = config.features.blockchainInteraction;
 
-const chains = [ currentChain, parentChain ].filter(Boolean);
-
 const wagmi = (() => {
+  const chains = [ currentChain ];
 
   if (!feature.isEnabled) {
     const wagmiConfig = createConfig({
-      chains: chains as [Chain, ...Array<Chain>],
+      chains: [ currentChain ],
       transports: {
         [currentChain.id]: fallback(
           config.chain.rpcUrls
             .map((url) => http(url))
             .concat(http(`${ config.api.endpoint }/api/eth-rpc`)),
         ),
-        ...(parentChain ? { [parentChain.id]: http(parentChain.rpcUrls.default.http[0]) } : {}),
       },
       ssr: true,
       batch: { multicall: { wait: 100 } },
@@ -32,11 +27,10 @@ const wagmi = (() => {
   }
 
   const wagmiAdapter = new WagmiAdapter({
-    networks: chains as Array<AppKitNetwork>,
+    networks: chains,
     multiInjectedProviderDiscovery: true,
     transports: {
       [currentChain.id]: fallback(config.chain.rpcUrls.map((url) => http(url))),
-      ...(parentChain ? { [parentChain.id]: http() } : {}),
     },
     projectId: feature.walletConnect.projectId,
     ssr: true,
