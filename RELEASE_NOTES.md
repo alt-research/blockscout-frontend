@@ -28,15 +28,6 @@
 
 **Full list of the ENV variables**: [v1.2.3](https://github.com/blockscout/frontend/blob/v1.2.3/docs/ENVS.md)
 
-## 💑 Compatibility
-From this version onward, the app is compatible only with the following API versions:
-
-| Service | Version |
-| --- | --- |
-| Blockscout API | ... |
-| Stats microservice API | ... |
-| ... | ... |
-
 ## 🦄 New Contributors
 - @contributor1 made their first contribution in https://github.com/blockscout/frontend/pull/1
 - @contributor2 made their first contribution in https://github.com/blockscout/frontend/pull/2
