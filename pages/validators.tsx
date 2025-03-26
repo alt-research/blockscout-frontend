@@ -17,10 +17,6 @@ const Validators = dynamic(() => {
     return import('ui/pages/ValidatorsBlackfort');
   }
 
-  if (validatorsFeature.isEnabled && validatorsFeature.chainType === 'zilliqa') {
-    return import('ui/pages/ValidatorsZilliqa');
-  }
-
   throw new Error('Validators feature is not enabled.');
 }, { ssr: false });
 
