@@ -43,9 +43,6 @@ const UserOp = () => {
     if (!userOpQuery.data) {
       return true;
     } else {
-      if (!userOpQuery.data.user_logs_start_index || !userOpQuery.data.user_logs_count) {
-        return false;
-      }
       if (inRange(
         Number(tt.log_index),
         userOpQuery.data?.user_logs_start_index,
@@ -61,9 +58,6 @@ const UserOp = () => {
     if (!userOpQuery.data) {
       return true;
     } else {
-      if (!userOpQuery.data.user_logs_start_index || !userOpQuery.data.user_logs_count) {
-        return false;
-      }
       if (inRange(log.index, userOpQuery.data?.user_logs_start_index, userOpQuery.data?.user_logs_start_index + userOpQuery.data?.user_logs_count)) {
         return true;
       }
