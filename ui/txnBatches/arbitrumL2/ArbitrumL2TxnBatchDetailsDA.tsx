@@ -12,10 +12,10 @@ import IconSvg from 'ui/shared/IconSvg';
 import TextSeparator from 'ui/shared/TextSeparator';
 
 type Props = {
-  data: ArbitrumL2TxnBatchDAAnytrust;
+  dataAvailability: ArbitrumL2TxnBatchDAAnytrust;
 };
 
-const ArbitrumL2TxnBatchDetailsAnyTrustDA = ({ data }: Props) => {
+const ArbitrumL2TxnBatchDetailsDA = ({ dataAvailability }: Props) => {
   const signersBg = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
 
   return (
@@ -25,26 +25,26 @@ const ArbitrumL2TxnBatchDetailsAnyTrustDA = ({ data }: Props) => {
       >
         Signature
       </DetailsInfoItem.Label><DetailsInfoItem.Value wordBreak="break-all" whiteSpace="break-spaces">
-        { data.bls_signature }
+        { dataAvailability.bls_signature }
       </DetailsInfoItem.Value><DetailsInfoItem.Label
         hint="The hash of the data blob stored by the AnyTrust committee"
       >
         Data hash
       </DetailsInfoItem.Label><DetailsInfoItem.Value>
-        { data.data_hash }
-        <CopyToClipboard text={ data.data_hash } ml={ 2 }/>
+        { dataAvailability.data_hash }
+        <CopyToClipboard text={ dataAvailability.data_hash } ml={ 2 }/>
       </DetailsInfoItem.Value><DetailsInfoItem.Label
         hint="Expiration timeout for the data blob"
       >
         Timeout
       </DetailsInfoItem.Label><DetailsInfoItem.Value>
-        { dayjs(data.timeout) < dayjs() ?
-          <DetailsTimestamp timestamp={ data.timeout }/> :
+        { dayjs(dataAvailability.timeout) < dayjs() ?
+          <DetailsTimestamp timestamp={ dataAvailability.timeout }/> :
           (
             <>
-              <Text>{ dayjs(data.timeout).format('llll') }</Text>
+              <Text>{ dayjs(dataAvailability.timeout).format('llll') }</Text>
               <TextSeparator color="gray.500"/>
-              <Text color="red.500">{ dayjs(data.timeout).diff(dayjs(), 'day') } days left</Text>
+              <Text color="red.500">{ dayjs(dataAvailability.timeout).diff(dayjs(), 'day') } days left</Text>
             </>
           ) }
       </DetailsInfoItem.Value>
@@ -66,7 +66,7 @@ const ArbitrumL2TxnBatchDetailsAnyTrustDA = ({ data }: Props) => {
             <Text fontWeight={ 600 }>Key</Text>
             <Text fontWeight={ 600 }>Trusted</Text>
             <Text fontWeight={ 600 }>Proof</Text>
-            { data.signers.map(signer => (
+            { dataAvailability.signers.map(signer => (
               <>
                 <Flex justifyContent="space-between">
                   <Text wordBreak="break-all" whiteSpace="break-spaces">{ signer.key }</Text>
@@ -88,7 +88,7 @@ const ArbitrumL2TxnBatchDetailsAnyTrustDA = ({ data }: Props) => {
 
         <Hide above="lg" ssr={ false }>
           <Box backgroundColor={ signersBg } borderRadius="md">
-            { data.signers.map(signer => (
+            { dataAvailability.signers.map(signer => (
               <VStack padding={ 4 } key={ signer.key } gap={ 2 }>
                 <Flex w="100%" justifyContent="space-between">
                   <Text fontWeight={ 600 }>Key</Text>
@@ -119,4 +119,4 @@ const ArbitrumL2TxnBatchDetailsAnyTrustDA = ({ data }: Props) => {
   );
 };
 
-export default ArbitrumL2TxnBatchDetailsAnyTrustDA;
+export default ArbitrumL2TxnBatchDetailsDA;

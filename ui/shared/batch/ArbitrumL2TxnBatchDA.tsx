@@ -19,16 +19,16 @@ const ArbitrumL2TxnBatchDA = ({ dataContainer, isLoading }: Props) => {
 
   switch (dataContainer) {
     case 'in_blob4844':
-      text = 'Blob';
+      text = 'blob';
       break;
     case 'in_anytrust':
-      text = 'AnyTrust';
+      text = 'anytrust';
       break;
     case 'in_calldata':
-      text = 'Calldata';
+      text = 'calldata';
       break;
     case 'in_celestia':
-      text = 'Celestia';
+      text = 'celestia';
       break;
     default:
       text = '';
