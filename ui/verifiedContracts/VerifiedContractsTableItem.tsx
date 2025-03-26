@@ -12,7 +12,6 @@ import ContractCertifiedLabel from 'ui/shared/ContractCertifiedLabel';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import IconSvg from 'ui/shared/IconSvg';
 import TimeAgoWithTooltip from 'ui/shared/TimeAgoWithTooltip';
-import TruncatedValue from 'ui/shared/TruncatedValue';
 
 interface Props {
   data: VerifiedContract;
@@ -57,12 +56,9 @@ const VerifiedContractsTableItem = ({ data, isLoading }: Props) => {
         />
       </Td>
       <Td isNumeric>
-        <TruncatedValue
-          value={ balance }
-          isLoading={ isLoading }
-          my={ 1 }
-          w="100%"
-        />
+        <Skeleton isLoaded={ !isLoading } display="inline-block" my={ 1 }>
+          { balance }
+        </Skeleton>
       </Td>
       <Td isNumeric>
         <Skeleton isLoaded={ !isLoading } display="inline-block" my={ 1 }>
