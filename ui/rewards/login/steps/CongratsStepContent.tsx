@@ -12,17 +12,14 @@ import RewardsReadOnlyInputWithCopy from '../../RewardsReadOnlyInputWithCopy';
 
 type Props = {
   isReferral: boolean;
-  customReferralReward: string | null;
 };
 
-const CongratsStepContent = ({ isReferral, customReferralReward }: Props) => {
+const CongratsStepContent = ({ isReferral }: Props) => {
   const { referralsQuery, rewardsConfigQuery } = useRewardsContext();
 
-  const registrationReward = Number(rewardsConfigQuery.data?.rewards.registration);
-  const registrationWithReferralReward = customReferralReward ?
-    Number(customReferralReward) + registrationReward :
-    Number(rewardsConfigQuery.data?.rewards.registration_with_referral);
-  const referralReward = registrationWithReferralReward - registrationReward;
+  const registrationReward = rewardsConfigQuery.data?.rewards.registration;
+  const registrationWithReferralReward = rewardsConfigQuery.data?.rewards.registration_with_referral;
+  const referralReward = Number(registrationWithReferralReward) - Number(registrationReward);
 
   const refLink = referralsQuery.data?.link || 'N/A';
   const shareText = `I joined the @blockscout Merits Program and got my first ${ registrationReward || 'N/A' } #Merits! Use this link for a sign-up bonus and start earning rewards with @blockscout block explorer.\n\n${ refLink }`; // eslint-disable-line max-len
@@ -44,7 +41,7 @@ const CongratsStepContent = ({ isReferral, customReferralReward }: Props) => {
         <MeritsIcon boxSize={{ base: isReferral ? 8 : 12, md: 12 }} mr={{ base: isReferral ? 1 : 2, md: 2 }}/>
         <Skeleton isLoaded={ !rewardsConfigQuery.isLoading }>
           <Text fontSize={{ base: isReferral ? '24px' : '30px', md: '30px' }} fontWeight="700" color={ textColor }>
-            +{ (isReferral ? registrationWithReferralReward : registrationReward) || 'N/A' }
+            +{ rewardsConfigQuery.data?.rewards[ isReferral ? 'registration_with_referral' : 'registration' ] || 'N/A' }
           </Text>
         </Skeleton>
         { isReferral && (

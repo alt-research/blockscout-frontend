@@ -45,7 +45,7 @@ type TRewardsContext = {
   openLoginModal: () => void;
   closeLoginModal: () => void;
   saveApiToken: (token: string | undefined) => void;
-  login: (refCode: string) => Promise<{ isNewUser: boolean; reward: string | null; invalidRefCodeError?: boolean }>;
+  login: (refCode: string) => Promise<{ isNewUser?: boolean; invalidRefCodeError?: boolean }>;
   claim: () => Promise<void>;
 };
 
@@ -70,7 +70,7 @@ const initialState = {
   openLoginModal: () => {},
   closeLoginModal: () => {},
   saveApiToken: () => {},
-  login: async() => ({ isNewUser: false, reward: null }),
+  login: async() => ({}),
   claim: async() => {},
 };
 
@@ -216,14 +216,10 @@ export function RewardsContextProvider({ children }: Props) {
         apiFetch('rewards_nonce') as Promise<RewardsNonceResponse>,
         refCode ?
           apiFetch('rewards_check_ref_code', { pathParams: { code: refCode } }) as Promise<RewardsCheckRefCodeResponse> :
-          Promise.resolve({ valid: true, reward: null }),
+          Promise.resolve({ valid: true }),
       ]);
       if (!checkCodeResponse.valid) {
-        return {
-          invalidRefCodeError: true,
-          isNewUser: false,
-          reward: null,
-        };
+        return { invalidRefCodeError: true };
       }
       const message = getMessageToSign(address, nonceResponse.nonce, checkUserQuery.data?.exists, refCode);
       const signature = await signMessageAsync({ message });
@@ -238,10 +234,7 @@ export function RewardsContextProvider({ children }: Props) {
         },
       }) as RewardsLoginResponse;
       saveApiToken(loginResponse.token);
-      return {
-        isNewUser: loginResponse.created,
-        reward: checkCodeResponse.reward,
-      };
+      return { isNewUser: loginResponse.created };
     } catch (_error) {
       errorToast(_error);
       throw _error;

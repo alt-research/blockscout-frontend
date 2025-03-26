@@ -12,8 +12,6 @@ export type RewardsConfigResponse = {
 
 export type RewardsCheckRefCodeResponse = {
   valid: boolean;
-  is_custom: boolean;
-  reward: string | null;
 };
 
 export type RewardsNonceResponse = {
