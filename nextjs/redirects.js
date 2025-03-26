@@ -52,10 +52,6 @@ const oldUrls = [
     source: '/account/public-tags-request',
     destination: '/public-tags/submit',
   },
-  {
-    source: '/account/rewards',
-    destination: '/account/merits',
-  },
 
   // TRANSACTIONS
   {

@@ -37,7 +37,7 @@ const RewardsButton = ({ variant = 'header', size }: Props) => {
         data-selected={ !isLoading && Boolean(apiToken) }
         flexShrink={ 0 }
         as={ apiToken ? LinkInternal : 'button' }
-        { ...(apiToken ? { href: route({ pathname: '/account/merits' }) } : {}) }
+        { ...(apiToken ? { href: route({ pathname: '/account/rewards' }) } : {}) }
         onClick={ apiToken ? undefined : openLoginModal }
         onFocus={ handleFocus }
         fontSize="sm"
