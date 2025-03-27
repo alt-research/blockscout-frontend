@@ -1,5 +1,7 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useBoolean, useDisclosure } from '@chakra-ui/react';
-import React, { useCallback, useEffect } from 'react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useDisclosure } from '@chakra-ui/react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import type { Screen } from 'ui/snippets/auth/types';
 
 import { useRewardsContext } from 'lib/contexts/rewards';
 import useIsMobile from 'lib/hooks/useIsMobile';
@@ -23,34 +25,38 @@ const RewardsLoginModal = () => {
   const isMobile = useIsMobile();
   const { isLoginModalOpen, closeLoginModal } = useRewardsContext();
 
-  const [ isLoginStep, setIsLoginStep ] = useBoolean(true);
-  const [ isReferral, setIsReferral ] = useBoolean(false);
-  const [ isAuth, setIsAuth ] = useBoolean(false);
+  const [ isLoginStep, setIsLoginStep ] = useState(true);
+  const [ isReferral, setIsReferral ] = useState(false);
+  const [ customReferralReward, setCustomReferralReward ] = useState<string | null>(null);
+  const [ authModalInitialScreen, setAuthModalInitialScreen ] = useState<Screen>();
   const authModal = useDisclosure();
 
   useEffect(() => {
     if (!isLoginModalOpen) {
-      setIsLoginStep.on();
-      setIsReferral.off();
+      setIsLoginStep(true);
+      setIsReferral(false);
+      setCustomReferralReward(null);
     }
-  }, [ isLoginModalOpen, setIsLoginStep, setIsReferral ]);
+  }, [ isLoginModalOpen ]);
 
-  const goNext = useCallback((isReferral: boolean) => {
-    if (isReferral) {
-      setIsReferral.on();
-    }
-    setIsLoginStep.off();
-  }, [ setIsLoginStep, setIsReferral ]);
+  const goNext = useCallback((isReferral: boolean, reward: string | null) => {
+    setIsReferral(isReferral);
+    setCustomReferralReward(reward);
+    setIsLoginStep(false);
+  }, []);
 
-  const handleAuthModalOpen = useCallback((isAuth: boolean) => {
-    setIsAuth[isAuth ? 'on' : 'off']();
+  const handleAuthModalOpen = useCallback((isAuth: boolean, trySharedLogin?: boolean) => {
+    setAuthModalInitialScreen({ type: 'connect_wallet', isAuth, loginToRewards: trySharedLogin });
     authModal.onOpen();
-  }, [ authModal, setIsAuth ]);
+  }, [ authModal, setAuthModalInitialScreen ]);
 
-  const handleAuthModalClose = useCallback(() => {
-    setIsAuth.off();
+  const handleAuthModalClose = useCallback((isSuccess?: boolean, rewardsApiToken?: string) => {
+    if (isSuccess && rewardsApiToken) {
+      closeLoginModal();
+    }
+    setAuthModalInitialScreen(undefined);
     authModal.onClose();
-  }, [ authModal, setIsAuth ]);
+  }, [ authModal, setAuthModalInitialScreen, closeLoginModal ]);
 
   return (
     <>
@@ -69,15 +75,15 @@ const RewardsLoginModal = () => {
           <ModalBody mb={ 0 }>
             { isLoginStep ?
               <LoginStepContent goNext={ goNext } openAuthModal={ handleAuthModalOpen } closeModal={ closeLoginModal }/> :
-              <CongratsStepContent isReferral={ isReferral }/>
+              <CongratsStepContent isReferral={ isReferral } customReferralReward={ customReferralReward }/>
             }
           </ModalBody>
         </ModalContent>
       </Modal>
-      { authModal.isOpen && (
+      { authModal.isOpen && authModalInitialScreen && (
         <AuthModal
           onClose={ handleAuthModalClose }
-          initialScreen={{ type: 'connect_wallet', isAuth }}
+          initialScreen={ authModalInitialScreen }
           mixpanelConfig={ MIXPANEL_CONFIG }
           closeOnError
         />

@@ -12,17 +12,20 @@ import RewardsReadOnlyInputWithCopy from '../../RewardsReadOnlyInputWithCopy';
 
 type Props = {
   isReferral: boolean;
+  customReferralReward: string | null;
 };
 
-const CongratsStepContent = ({ isReferral }: Props) => {
+const CongratsStepContent = ({ isReferral, customReferralReward }: Props) => {
   const { referralsQuery, rewardsConfigQuery } = useRewardsContext();
 
-  const registrationReward = rewardsConfigQuery.data?.rewards.registration;
-  const registrationWithReferralReward = rewardsConfigQuery.data?.rewards.registration_with_referral;
-  const referralReward = Number(registrationWithReferralReward) - Number(registrationReward);
+  const registrationReward = Number(rewardsConfigQuery.data?.rewards.registration);
+  const registrationWithReferralReward = customReferralReward ?
+    Number(customReferralReward) + registrationReward :
+    Number(rewardsConfigQuery.data?.rewards.registration_with_referral);
+  const referralReward = registrationWithReferralReward - registrationReward;
 
   const refLink = referralsQuery.data?.link || 'N/A';
-  const shareText = `I joined the @blockscoutcom Merits Program and got my first ${ registrationReward || 'N/A' } #Merits! Use this link for a sign-up bonus and start earning rewards with @blockscoutcom block explorer.\n\n${ refLink }`; // eslint-disable-line max-len
+  const shareText = `I joined the @blockscout Merits Program and got my first ${ registrationReward || 'N/A' } #Merits! Use this link for a sign-up bonus and start earning rewards with @blockscout block explorer.\n\n${ refLink }`; // eslint-disable-line max-len
 
   const textColor = useColorModeValue('blue.700', 'blue.100');
   const dividerColor = useColorModeValue('whiteAlpha.800', 'whiteAlpha.100');
@@ -41,7 +44,7 @@ const CongratsStepContent = ({ isReferral }: Props) => {
         <MeritsIcon boxSize={{ base: isReferral ? 8 : 12, md: 12 }} mr={{ base: isReferral ? 1 : 2, md: 2 }}/>
         <Skeleton isLoaded={ !rewardsConfigQuery.isLoading }>
           <Text fontSize={{ base: isReferral ? '24px' : '30px', md: '30px' }} fontWeight="700" color={ textColor }>
-            +{ rewardsConfigQuery.data?.rewards[ isReferral ? 'registration_with_referral' : 'registration' ] || 'N/A' }
+            +{ (isReferral ? registrationWithReferralReward : registrationReward) || 'N/A' }
           </Text>
         </Skeleton>
         { isReferral && (
@@ -122,7 +125,7 @@ const CongratsStepContent = ({ isReferral }: Props) => {
           Explore your current Merits balance, find activities to boost your Merits,
           and view your capybara NFT badge collection on the dashboard
         </Text>
-        <Button mt={ 3 } as="a" href={ route({ pathname: '/account/rewards' }) }>
+        <Button mt={ 3 } as="a" href={ route({ pathname: '/account/merits' }) }>
           Open
         </Button>
       </Flex>

@@ -44,7 +44,8 @@ type TRewardsContext = {
   isLoginModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
-  login: (refCode: string) => Promise<{ isNewUser?: boolean; invalidRefCodeError?: boolean }>;
+  saveApiToken: (token: string | undefined) => void;
+  login: (refCode: string) => Promise<{ isNewUser: boolean; reward: string | null; invalidRefCodeError?: boolean }>;
   claim: () => Promise<void>;
 };
 
@@ -68,7 +69,8 @@ const initialState = {
   isLoginModalOpen: false,
   openLoginModal: () => {},
   closeLoginModal: () => {},
-  login: async() => ({}),
+  saveApiToken: () => {},
+  login: async() => ({ isNewUser: false, reward: null }),
   claim: async() => {},
 };
 
@@ -214,10 +216,14 @@ export function RewardsContextProvider({ children }: Props) {
         apiFetch('rewards_nonce') as Promise<RewardsNonceResponse>,
         refCode ?
           apiFetch('rewards_check_ref_code', { pathParams: { code: refCode } }) as Promise<RewardsCheckRefCodeResponse> :
-          Promise.resolve({ valid: true }),
+          Promise.resolve({ valid: true, reward: null }),
       ]);
       if (!checkCodeResponse.valid) {
-        return { invalidRefCodeError: true };
+        return {
+          invalidRefCodeError: true,
+          isNewUser: false,
+          reward: null,
+        };
       }
       const message = getMessageToSign(address, nonceResponse.nonce, checkUserQuery.data?.exists, refCode);
       const signature = await signMessageAsync({ message });
@@ -232,7 +238,10 @@ export function RewardsContextProvider({ children }: Props) {
         },
       }) as RewardsLoginResponse;
       saveApiToken(loginResponse.token);
-      return { isNewUser: loginResponse.created };
+      return {
+        isNewUser: loginResponse.created,
+        reward: checkCodeResponse.reward,
+      };
     } catch (_error) {
       errorToast(_error);
       throw _error;
@@ -265,6 +274,7 @@ export function RewardsContextProvider({ children }: Props) {
       rewardsConfigQuery,
       checkUserQuery,
       apiToken,
+      saveApiToken,
       isInitialized,
       isLoginModalOpen,
       openLoginModal: setIsLoginModalOpen.on,
@@ -274,7 +284,7 @@ export function RewardsContextProvider({ children }: Props) {
     };
   }, [
     isLoginModalOpen, setIsLoginModalOpen, balancesQuery, dailyRewardQuery, checkUserQuery,
-    apiToken, login, claim, referralsQuery, rewardsConfigQuery, isInitialized,
+    apiToken, login, claim, referralsQuery, rewardsConfigQuery, isInitialized, saveApiToken,
   ]);
 
   return (

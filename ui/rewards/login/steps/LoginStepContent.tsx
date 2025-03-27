@@ -13,9 +13,9 @@ import LinkExternal from 'ui/shared/links/LinkExternal';
 import useProfileQuery from 'ui/snippets/auth/useProfileQuery';
 
 type Props = {
-  goNext: (isReferral: boolean) => void;
+  goNext: (isReferral: boolean, reward: string | null) => void;
   closeModal: () => void;
-  openAuthModal: (isAuth: boolean) => void;
+  openAuthModal: (isAuth: boolean, trySharedLogin?: boolean) => void;
 };
 
 const LoginStepContent = ({ goNext, closeModal, openAuthModal }: Props) => {
@@ -23,10 +23,10 @@ const LoginStepContent = ({ goNext, closeModal, openAuthModal }: Props) => {
   const { connect, isConnected, address } = useWallet({ source: 'Merits' });
   const savedRefCode = cookies.get(cookies.NAMES.REWARDS_REFERRAL_CODE);
   const [ isRefCodeUsed, setIsRefCodeUsed ] = useBoolean(Boolean(savedRefCode));
-  const [ isLoading, setIsLoading ] = useBoolean(false);
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ refCode, setRefCode ] = useState(savedRefCode || '');
-  const [ refCodeError, setRefCodeError ] = useBoolean(false);
-  const { login, checkUserQuery } = useRewardsContext();
+  const [ refCodeError, setRefCodeError ] = useState(false);
+  const { login, checkUserQuery, rewardsConfigQuery } = useRewardsContext();
   const profileQuery = useProfileQuery();
 
   const isAddressMismatch = useMemo(() =>
@@ -43,46 +43,57 @@ const LoginStepContent = ({ goNext, closeModal, openAuthModal }: Props) => {
     isConnected && !isAddressMismatch && !checkUserQuery.isFetching && !checkUserQuery.data?.exists,
   [ isConnected, isAddressMismatch, checkUserQuery ]);
 
+  const canTrySharedLogin = rewardsConfigQuery.data?.auth.shared_siwe_login && checkUserQuery.data?.exists !== false && !isLoggedIntoAccountWithWallet;
+
   const handleRefCodeChange = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setRefCode(event.target.value);
   }, []);
 
   const loginToRewardsProgram = useCallback(async() => {
     try {
-      setRefCodeError.off();
-      setIsLoading.on();
-      const { isNewUser, invalidRefCodeError } = await login(isSignUp && isRefCodeUsed ? refCode : '');
+      setRefCodeError(false);
+      setIsLoading(true);
+      const { isNewUser, reward, invalidRefCodeError } = await login(isSignUp && isRefCodeUsed ? refCode : '');
       if (invalidRefCodeError) {
-        setRefCodeError.on();
+        setRefCodeError(true);
       } else {
         if (isNewUser) {
-          goNext(Boolean(refCode));
+          goNext(isRefCodeUsed, reward);
         } else {
           closeModal();
-          router.push({ pathname: '/account/rewards' }, undefined, { shallow: true });
+          router.push({ pathname: '/account/merits' }, undefined, { shallow: true });
         }
       }
     } catch (error) {}
-    setIsLoading.off();
-  }, [ login, goNext, setIsLoading, router, closeModal, refCode, setRefCodeError, isRefCodeUsed, isSignUp ]);
+    setIsLoading(false);
+  }, [ login, goNext, router, closeModal, refCode, isRefCodeUsed, isSignUp ]);
 
   useEffect(() => {
-    if (isSignUp && isRefCodeUsed && refCode.length > 0 && refCode.length !== 6) {
-      setRefCodeError.on();
-    } else {
-      setRefCodeError.off();
-    }
-  }, [ refCode, isRefCodeUsed, isSignUp ]); // eslint-disable-line react-hooks/exhaustive-deps
+    const isInvalid = isSignUp && isRefCodeUsed && refCode.length > 0 && refCode.length !== 6 && refCode.length !== 12;
+    setRefCodeError(isInvalid);
+  }, [ refCode, isRefCodeUsed, isSignUp ]);
 
-  const handleLogin = useCallback(async() => {
-    if (isLoggedIntoAccountWithWallet) {
-      loginToRewardsProgram();
-    } else {
-      openAuthModal(Boolean(profileQuery.data?.email));
+  const handleButtonClick = React.useCallback(() => {
+    if (canTrySharedLogin) {
+      return openAuthModal(Boolean(profileQuery.data?.email), true);
     }
-  }, [ loginToRewardsProgram, openAuthModal, isLoggedIntoAccountWithWallet, profileQuery ]);
+
+    if (!isConnected) {
+      return connect();
+    }
+
+    if (isLoggedIntoAccountWithWallet) {
+      return loginToRewardsProgram();
+    }
+
+    return openAuthModal(Boolean(profileQuery.data?.email));
+  }, [ loginToRewardsProgram, openAuthModal, profileQuery, connect, isConnected, isLoggedIntoAccountWithWallet, canTrySharedLogin ]);
 
   const buttonText = useMemo(() => {
+    if (canTrySharedLogin) {
+      return 'Continue with wallet';
+    }
+
     if (!isConnected) {
       return 'Connect wallet';
     }
@@ -90,12 +101,12 @@ const LoginStepContent = ({ goNext, closeModal, openAuthModal }: Props) => {
       return isSignUp ? 'Get started' : 'Continue';
     }
     return profileQuery.data?.email ? 'Add wallet to account' : 'Log in to account';
-  }, [ isConnected, isLoggedIntoAccountWithWallet, profileQuery.data, isSignUp ]);
+  }, [ canTrySharedLogin, isConnected, isLoggedIntoAccountWithWallet, profileQuery.data?.email, isSignUp ]);
 
   return (
     <>
       <Image
-        src="/static/merits_program.png"
+        src="/static/merits/merits_program.png"
         alt="Merits program"
         mb={ 3 }
         fallback={ <Skeleton w="full" h="120px" mb={ 3 }/> }
@@ -131,7 +142,10 @@ const LoginStepContent = ({ goNext, closeModal, openAuthModal }: Props) => {
                 <FormInputPlaceholder text="Code"/>
               </FormControl>
               <Text fontSize="sm" variant="secondary" mt={ 1 } color={ refCodeError ? 'red.500' : undefined }>
-                { refCodeError ? 'Incorrect code or format' : 'The code should be in format XXXXXX' }
+                { refCodeError ?
+                  'Incorrect code or format (6 or 12 characters)' :
+                  'The code should be in format XXXXXX'
+                }
               </Text>
             </>
           ) }
@@ -148,7 +162,7 @@ const LoginStepContent = ({ goNext, closeModal, openAuthModal }: Props) => {
         w="full"
         whiteSpace="normal"
         mb={ 4 }
-        onClick={ isConnected ? handleLogin : connect }
+        onClick={ handleButtonClick }
         isLoading={ isLoading || profileQuery.isLoading || checkUserQuery.isFetching }
         loadingText={ isLoading ? 'Sign message in your wallet' : undefined }
         isDisabled={ isAddressMismatch || refCodeError }
